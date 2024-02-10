@@ -48,7 +48,9 @@ void verifyDriverLookupCreated()
 
 DriverInfo* lookupDriver(string name)
 {
+    debug("(meters) lookupDriver 01");
     verifyDriverLookupCreated();
+    debug("(meters) lookupDriver 02");
 
     // Check if we have a compiled/loaded driver available.
     if (registered_drivers_->count(name) == 1)
@@ -56,6 +58,7 @@ DriverInfo* lookupDriver(string name)
         return &(*registered_drivers_)[name];
     }
 
+    debug("(meters) lookupDriver 03");
     // No, ok lets look for driver aliases.
     for (DriverInfo* di : *registered_drivers_list_)
     {
@@ -67,6 +70,8 @@ DriverInfo* lookupDriver(string name)
             }
         }
     }
+
+    debug("(meters) lookupDriver 04");
 
     return NULL;
 }
@@ -1451,9 +1456,7 @@ bool isValidBps(const string& b)
 
 bool MeterInfo::parse(string n, string d, string i, string k)
 {
-    debug("(meters) parse 01");
     clear();
-    debug("(meters) parse 02");
 
     name = n;
     ids = splitMatchExpressions(i);
@@ -1511,7 +1514,6 @@ bool MeterInfo::parse(string n, string d, string i, string k)
         // that the meter can transmit on.
         // link_modes = toMeterLinkModeSet(driver);
     }
-    debug("(meters) parse xx");
 
     return true;
 }
@@ -1918,11 +1920,14 @@ DriverInfo pickMeterDriver(Telegram* t)
 
 shared_ptr<Meter> createMeter(MeterInfo* mi)
 {
+    debug("(meters) createMeter 01");
     shared_ptr<Meter> newm;
 
     const char* keymsg = (mi->key[0] == 0) ? "not-encrypted" : "encrypted";
 
     DriverInfo* di = lookupDriver(mi->driver_name.str());
+
+    debug("(meters) createMeter 02");
 
     if (di != NULL)
     {
@@ -1931,7 +1936,7 @@ shared_ptr<Meter> createMeter(MeterInfo* mi)
         {
             newm->addExtraCalculatedField(j);
         }
-      
+        debug("(meters) createMeter 03");
         if (mi->selected_fields.size() > 0)
         {
             newm->setSelectedFields(mi->selected_fields);
@@ -1947,6 +1952,7 @@ shared_ptr<Meter> createMeter(MeterInfo* mi)
             keymsg);
         return newm;
     }
+    debug("(meters) createMeter 04");
 
     return newm;
 }
