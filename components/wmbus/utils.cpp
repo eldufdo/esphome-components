@@ -1008,7 +1008,7 @@ void debugPayload(const std::string& intro, std::vector<uchar>& payload)
     if (isDebugEnabled())
     {
         std::string msg = bin2hex(payload);
-        debug("%s \"%s\"\n", intro.c_str(), msg.c_str());
+        debug("%s \"%s\"", intro.c_str(), msg.c_str());
     }
 }
 
@@ -1017,7 +1017,7 @@ void debugPayload(const std::string& intro, std::vector<uchar>& payload, std::ve
     if (isDebugEnabled())
     {
         std::string msg = bin2hex(pos, payload.end(), 1024);
-        debug("%s \"%s\"\n", intro.c_str(), msg.c_str());
+        debug("%s \"%s\"", intro.c_str(), msg.c_str());
     }
 }
 

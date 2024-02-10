@@ -105,9 +105,11 @@ namespace wmbus {
           int i=0;
           for (auto it = sensor->key.begin(); it != sensor->key.end(); it++) {
             sprintf((hexKey+i),"%02X", *it);
+            ESP_LOGI(TAG, "key: '%s'", myKey.c_str());
             i++;
           }
           string myKey = std::string(hexKey);
+          ESP_LOGI(TAG, "KEY: [%d]'%s'", i, *(hexKey+i));
           //
           MeterInfo mi;
           mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), myKey);

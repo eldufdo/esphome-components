@@ -214,7 +214,7 @@ bool decrypt_ELL_AES_CTR(Telegram* t, vector<uchar>& frame, vector<uchar>::itera
 
     vector<uchar> ivv(iv, iv + 16);
     string s = bin2hex(ivv);
-    debug("(ELL) IV %s\n", s.c_str());
+    debug("(ELL) IV %s", s.c_str());
 
     int block = 0;
     for (size_t offset = 0; offset < encrypted_bytes.size(); offset += 16)
@@ -235,7 +235,7 @@ bool decrypt_ELL_AES_CTR(Telegram* t, vector<uchar>& frame, vector<uchar>::itera
         uchar tmp[16];
         xorit(xordata, &encrypted_bytes[offset], tmp, block_size);
 
-        debug("(ELL) block %d block_size %d offset %zu\n", block, block_size, offset);
+        debug("(ELL) block %d block_size %d offset %zu", block, block_size, offset);
         block++;
 
         vector<uchar> tmpv(tmp, tmp + block_size);
