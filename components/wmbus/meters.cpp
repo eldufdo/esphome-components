@@ -89,7 +89,7 @@ void addRegisteredDriver(DriverInfo di)
     verifyDriverLookupCreated();
     if (registered_drivers_->count(di.name().str()) != 0)
     {
-        error("Two drivers trying to register the name \"%s\"\n", di.name().str().c_str());
+        error("Two drivers trying to register the name \"%s\"", di.name().str().c_str());
         exit(1);
     }
 
@@ -142,7 +142,7 @@ bool forceRegisterDriver(function<void(DriverInfo&)> setup)
             bool foo = p->detect(d.mfct, d.type, d.version);
             if (foo)
             {
-                error("Internal error: driver %s tried to register the same auto detect combo as driver %s alread has taken!\n",
+                error("Internal error: driver %s tried to register the same auto detect combo as driver %s alread has taken!",
                     di.name().str().c_str(), p->name().str().c_str());
             }
         }
@@ -154,7 +154,7 @@ bool forceRegisterDriver(function<void(DriverInfo&)> setup)
     // This code is invoked from the static initializers of DriverInfos when starting
     // wmbusmeters. Thus we do not yet know if the user has supplied --debug or similar setting.
     // To debug this you have to uncomment the printf below.
-    // fprintf(stderr, "(STATIC) added driver: %s\n", n.c_str());
+    // fprintf(stderr, "(STATIC) added driver: %s", n.c_str());
     return true;
 }
 
@@ -174,7 +174,7 @@ bool registerDriver(function<void(DriverInfo&)> setup)
             bool foo = p->detect(d.mfct, d.type, d.version);
             if (foo)
             {
-                error("Internal error: driver %s tried to register the same auto detect combo as driver %s alread has taken!\n",
+                error("Internal error: driver %s tried to register the same auto detect combo as driver %s alread has taken!",
                     di.name().str().c_str(), p->name().str().c_str());
             }
         }
@@ -186,7 +186,7 @@ bool registerDriver(function<void(DriverInfo&)> setup)
     // This code is invoked from the static initializers of DriverInfos when starting
     // wmbusmeters. Thus we do not yet know if the user has supplied --debug or similar setting.
     // To debug this you have to uncomment the printf below.
-    // fprintf(stderr, "(STATIC) added driver: %s\n", n.c_str());
+    // fprintf(stderr, "(STATIC) added driver: %s", n.c_str());
     return true;
 }
 
@@ -240,13 +240,13 @@ void MeterCommonImplementation::addExtraConstantField(string ecf)
 
 void MeterCommonImplementation::addExtraCalculatedField(string ecf)
 {
-    verbose("(meter) Adding calculated field: %s\n", ecf.c_str());
+    verbose("(meter) Adding calculated field: %s", ecf.c_str());
 
     vector<string> parts = splitString(ecf, '=');
 
     if (parts.size() != 2)
     {
-        warning("Invalid formula for calculated field. %s\n", ecf.c_str());
+        warning("Invalid formula for calculated field. %s", ecf.c_str());
         return;
     }
 
@@ -256,7 +256,7 @@ void MeterCommonImplementation::addExtraCalculatedField(string ecf)
     bool ok = extractUnit(parts[0], &vname, &unit);
     if (!ok)
     {
-        warning("Could not extract a valid unit from calculated field name %s\n", parts[0].c_str());
+        warning("Could not extract a valid unit from calculated field name %s", parts[0].c_str());
         return;
     }
 
@@ -267,7 +267,7 @@ void MeterCommonImplementation::addExtraCalculatedField(string ecf)
     {
         if (!canConvert(unit, existing->displayUnit()))
         {
-            warning("Warning! Cannot add the calculated field: %s since it would conflict with the already declared field %s for quantity %s.\n",
+            warning("Warning! Cannot add the calculated field: %s since it would conflict with the already declared field %s for quantity %s.",
                 parts[0].c_str(), vname.c_str(), toString(quantity));
             return;
         }
@@ -634,7 +634,7 @@ bool MeterCommonImplementation::isTelegramForMeter(Telegram* t, Meter* meter, Me
         driver_name = mi->driver_name.str();
     }
 
-    debug("(meter) %s: for me? %s in %s\n", name.c_str(), t->idsc.c_str(), idsc.c_str());
+    debug("(meter) %s: for me? %s in %s", name.c_str(), t->idsc.c_str(), idsc.c_str());
 
     bool used_wildcard = false;
     bool id_match = 
@@ -642,7 +642,7 @@ bool MeterCommonImplementation::isTelegramForMeter(Telegram* t, Meter* meter, Me
 
     if (!id_match) {
         // The id must match.
-        debug("(meter) %s: not for me: not my id\n", name.c_str());
+        debug("(meter) %s: not for me: not my id", name.c_str());
         return false;
     }
 
@@ -664,7 +664,7 @@ bool MeterCommonImplementation::isTelegramForMeter(Telegram* t, Meter* meter, Me
             // The match for the id was not exact, thus the user is listening using a wildcard
             // to many meters and some received matched meter telegrams are not from the right meter type,
             // ie their driver does not match. Lets just ignore telegrams that probably cannot be decoded properly.
-            verbose("(meter) ignoring telegram from %s since it matched a wildcard id rule but driver (%s) does not match.\n",
+            verbose("(meter) ignoring telegram from %s since it matched a wildcard id rule but driver (%s) does not match.",
                     t->idsc.c_str(), driver_name.c_str());
             return false;
             }*/
@@ -678,7 +678,7 @@ bool MeterCommonImplementation::isTelegramForMeter(Telegram* t, Meter* meter, Me
             if (t->beingAnalyzed() == false && driver_name != "auto")
             {
                 warning("(meter) %s: meter detection did not match the selected driver %s! correct driver is: %s\n"
-                    "(meter) Not printing this warning again for id: %02x%02x%02x%02x mfct: (%s) %s (0x%02x) type: %s (0x%02x) ver: 0x%02x\n",
+                    "(meter) Not printing this warning again for id: %02x%02x%02x%02x mfct: (%s) %s (0x%02x) type: %s (0x%02x) ver: 0x%02x",
                     name.c_str(),
                     driver_name.c_str(),
                     possible_drivers.c_str(),
@@ -698,7 +698,7 @@ bool MeterCommonImplementation::isTelegramForMeter(Telegram* t, Meter* meter, Me
         }
     }
 
-    debug("(meter) %s: yes for me\n", name.c_str());
+    debug("(meter) %s: yes for me", name.c_str());
     return true;
 }
 
@@ -903,7 +903,7 @@ string concatFields(Meter* m, Telegram* t, char c, vector<FieldInfo>& prints, bo
 bool MeterCommonImplementation::handleTelegram(AboutTelegram& about, vector<uchar> input_frame,
     bool simulated, string* ids, bool* id_match, Telegram* out_analyzed)
 {
-    // verbose("(meter) skipping already handled telegram leng=%zu.\n", frame.size());
+    // verbose("(meter) skipping already handled telegram leng=%zu.", frame.size());
     Telegram t;
     t.about = about;
     bool ok = t.parseHeader(input_frame);
@@ -920,12 +920,12 @@ bool MeterCommonImplementation::handleTelegram(AboutTelegram& about, vector<ucha
     }
 
     *id_match = true;
-    verbose("(meter) %s(%d) %s  handling telegram from %s\n", name().c_str(), index(), driverName().str().c_str(), t.ids.back().c_str());
+    verbose("(meter) %s(%d) %s  handling telegram from %s", name().c_str(), index(), driverName().str().c_str(), t.ids.back().c_str());
 
     if (isDebugEnabled())
     {
         string msg = bin2hex(input_frame);
-        debug("(meter) %s %s \"%s\"\n", name().c_str(), t.ids.back().c_str(), msg.c_str());
+        debug("(meter) %s %s \"%s\"", name().c_str(), t.ids.back().c_str(), msg.c_str());
     }
 
     // For older meters with manufacturer specific data without a nice 0f dif marker.
@@ -995,14 +995,14 @@ void MeterCommonImplementation::processFieldExtractors(Telegram* t)
         if (!fi.hasMatcher())
         {
             // This field_info has not been matched to a dv_entry before!
-            debug("(meters) skipping field without matcher %s(%s)[%d]...\n",
+            debug("(meters) skipping field without matcher %s(%s)[%d]...",
                 fi.vname().c_str(),
                 toString(fi.xuantity()),
                 fi.index());
             continue;
         }
 
-        debug("(meters) trying field info %s(%s)[%d]...\n",
+        debug("(meters) trying field info %s(%s)[%d]...",
             fi.vname().c_str(),
             toString(fi.xuantity()),
             fi.index());
@@ -1022,7 +1022,7 @@ void MeterCommonImplementation::processFieldExtractors(Telegram* t)
                 }
                 else if (founds[&fi].count(dve) == 0 || fi.matcher().expectedToMatchAgainstMultipleEntries())
                 {
-                    debug("(meters) using field info %s(%s)[%d] to extract %s at offset %d\n",
+                    debug("(meters) using field info %s(%s)[%d] to extract %s at offset %d",
                         fi.vname().c_str(),
                         toString(fi.xuantity()),
                         fi.index(),
@@ -1046,7 +1046,7 @@ void MeterCommonImplementation::processFieldExtractors(Telegram* t)
                         olds.pop_back();
 
                         verbose("(meter) while processing field extractors ignoring dventry %s at offset %d matching since "
-                            "field %s was already matched against offsets %s !\n",
+                            "field %s was already matched against offsets %s !",
                             dve->dif_vif_key.str().c_str(),
                             dve->offset,
                             fi.vname().c_str(),
@@ -1082,7 +1082,7 @@ void MeterCommonImplementation::processFieldCalculators()
     {
         if (fi.hasFormula() && !fi.hasMatcher())
         {
-            debug("(meters) calculating field %s(%s)[%d]\n",
+            debug("(meters) calculating field %s(%s)[%d]",
                 fi.vname().c_str(),
                 toString(fi.xuantity()),
                 fi.index());
@@ -1109,11 +1109,11 @@ string MeterCommonImplementation::getStatusField(FieldInfo* fi)
     {
         if (f.printProperties().hasINJECTINTOSTATUS())
         {
-            //printf("NOW >%s<\n", value.c_str());
+            //printf("NOW >%s<", value.c_str());
             string more = getStringValue(&f);
-            //printf("MORE >%s<\n", more.c_str());
+            //printf("MORE >%s<", more.c_str());
             string joined = joinStatusOKStrings(value, more);
-            //printf("JOINED >%s<\n", joined.c_str());
+            //printf("JOINED >%s<", joined.c_str());
             value = joined;
         }
     }
@@ -1157,7 +1157,7 @@ void MeterCommonImplementation::setNumericValue(string vname, Unit u, double v)
 
     if (fi == NULL)
     {
-        warning("(meter) cannot set numeric value %g %s for non-existant field \"%s\" %s\n", v, unitToStringLowerCase(u).c_str(), vname.c_str(), toString(q));
+        warning("(meter) cannot set numeric value %g %s for non-existant field \"%s\" %s", v, unitToStringLowerCase(u).c_str(), vname.c_str(), toString(q));
         return;
     }
     setNumericValue(fi, NULL, u, v);
@@ -1225,7 +1225,7 @@ void MeterCommonImplementation::setStringValue(string vname, string v, DVEntry* 
 
     if (fi == NULL)
     {
-        warning("(meter) cannot set string value %s for non-existant field \"%s\"\n", v.c_str(), vname.c_str());
+        warning("(meter) cannot set string value %s for non-existant field \"%s\"", v.c_str(), vname.c_str());
         return;
     }
     setStringValue(fi, v, dve);
@@ -1305,7 +1305,7 @@ string MeterCommonImplementation::debugValues()
         string us = unitToStringLowerCase(p.first.second);
         NumericField& nf = p.second;
 
-        s += tostrprintf("%s_%s = %g\n", vname.c_str(), us.c_str(), nf.value);
+        s += tostrprintf("%s_%s = %g", vname.c_str(), us.c_str(), nf.value);
     }
 
     for (auto& p : string_values_)
@@ -1313,7 +1313,7 @@ string MeterCommonImplementation::debugValues()
         string vname = p.first;
         StringField& nf = p.second;
 
-        s += tostrprintf("%s = \"%s\"\n", vname.c_str(), nf.value.c_str());
+        s += tostrprintf("%s = \"%s\"", vname.c_str(), nf.value.c_str());
     }
 
     return s;
@@ -1359,7 +1359,7 @@ FieldInfo::FieldInfo(int index,
 {
     if (!valid_field_name_)
     {
-        warning("(meter) field template \"%s\" could not be parsed!\n", vname.c_str());
+        warning("(meter) field template \"%s\" could not be parsed!", vname.c_str());
     }
 }
 
@@ -1743,13 +1743,13 @@ void MeterCommonImplementation::printMeter(Telegram* t,
             // This field info has matched against some dventries.
             for (DVEntry *dve : founds[&fi])
             {
-                debug("(meters) render field %s(%s %s)[%d] with dventry @%d key %s data %s\n",
+                debug("(meters) render field %s(%s %s)[%d] with dventry @%d key %s data %s",
                       fi.vname().c_str(), toString(fi.xuantity()), unitToStringLowerCase(fi.displayUnit()).c_str(), fi.index(),
                       dve->offset,
                       dve->dif_vif_key.str().c_str(),
                       dve->value.c_str());
                 string out = fi.renderJson(this, dve);
-                debug("(meters)             %s\n", out.c_str());
+                debug("(meters)             %s", out.c_str());
                 s += indent+out+","+newline;
             }
         }
@@ -1769,10 +1769,10 @@ void MeterCommonImplementation::printMeter(Telegram* t,
                 // No telegram entries found, but this field should be printed anyway.
                 // It will be printed with any value received from a previous telegram.
                 // Or if no value has been received, null.
-                debug("(meters) render field %s(%s)[%d] without dventry\n",
+                debug("(meters) render field %s(%s)[%d] without dventry",
                       fi.vname().c_str(), toString(fi.xuantity()), fi.index());
                 string out = fi.renderJson(this, NULL);
-                debug("(meters)             %s\n", out.c_str());
+                debug("(meters)             %s", out.c_str());
                 s += indent+out+","+newline;
             }
         }
@@ -1948,7 +1948,7 @@ shared_ptr<Meter> createMeter(MeterInfo* mi)
         {
             newm->setSelectedFields(di->defaultFields());
         }
-        verbose("(meter) created %s %s %s %s\n",
+        verbose("(meter) created %s %s %s %s",
             mi->name.c_str(),
             di->name().str().c_str(),
             mi->idsc.c_str(),
@@ -2129,7 +2129,7 @@ bool FieldInfo::extractNumeric(Meter* m, Telegram* t, DVEntry* dve)
             decoded_unit = toDefaultUnit(matcher_.vif_range);
         }
 
-        debug("(meter) %s %s decoded %s default %s value %g (scale %g)\n",
+        debug("(meter) %s %s decoded %s default %s value %g (scale %g)",
             toString(matcher_.vif_range),
             field_name.c_str(),
             unitToStringLowerCase(decoded_unit).c_str(),
@@ -2318,7 +2318,7 @@ bool FieldInfo::extractString(Meter* m, Telegram* t, DVEntry* dve)
     }
     else
     {
-        error("Internal error: Cannot extract text string from vif %s in %s:%d\n",
+        error("Internal error: Cannot extract text string from vif %s in %s:%d",
             toString(matcher_.vif_range),
             __FILE__, __LINE__);
 
@@ -2344,7 +2344,7 @@ void checkFieldsEmpty(set<string>& fields, string name)
         string info;
         for (auto& s : fields) { info += s + " "; }
 
-        warning("(meter) when adding common fields to driver %s, these fields were not found: %s\n",
+        warning("(meter) when adding common fields to driver %s, these fields were not found: %s",
             name.c_str(),
             info.c_str());
     }

@@ -100,6 +100,7 @@ double NumericFormulaAddition::calculate(SIUnit to_siunit)
 
 double NumericFormulaSubtraction::calculate(SIUnit to_siunit)
 {
+    trace("Szczepan calculate");
     double l = left_->calculate(left_->siunit());
     double r = right_->calculate(right_->siunit());
 
@@ -959,6 +960,8 @@ double FormulaImplementation::calculate(Unit to, DVEntry* dve, Meter* m)
 void FormulaImplementation::doConstant(Unit u, double c)
 {
     pushOp(new NumericFormulaConstant(this, u, c));
+    trace("Szczepan A 01");
+    
 }
 
 void FormulaImplementation::doAddition(const SIUnit& to_siunit)
@@ -969,6 +972,7 @@ void FormulaImplementation::doAddition(const SIUnit& to_siunit)
     unique_ptr<NumericFormula> left_node = popOp();
 
     pushOp(new NumericFormulaAddition(this, to_siunit, left_node, right_node));
+    trace("Szczepan A 02");
 }
 
 void FormulaImplementation::doSubtraction(const SIUnit& to_siunit)
@@ -979,6 +983,7 @@ void FormulaImplementation::doSubtraction(const SIUnit& to_siunit)
     unique_ptr<NumericFormula> left_node = popOp();
 
     pushOp(new NumericFormulaSubtraction(this, to_siunit, left_node, right_node));
+    trace("Szczepan A 03");
 }
 
 void FormulaImplementation::doMultiplication()
@@ -1000,6 +1005,7 @@ void FormulaImplementation::doMultiplication()
     string msis = mul_siunit.info();
 
     pushOp(new NumericFormulaMultiplication(this, mul_siunit, left_node, right_node));
+    trace("Szczepan A 04");
 }
 
 void FormulaImplementation::doDivision()
@@ -1023,6 +1029,7 @@ void FormulaImplementation::doDivision()
     debug("(formula) unit %s DIV %s ==> %s\n", lsis.c_str(), rsis.c_str(), dsis.c_str());
 
     pushOp(new NumericFormulaDivision(this, div_siunit, left_node, right_node));
+    trace("Szczepan A 05");
 }
 
 void FormulaImplementation::doExponentiation()
@@ -1038,6 +1045,7 @@ void FormulaImplementation::doExponentiation()
     unique_ptr<NumericFormula> left_node = popOp();
 
     pushOp(new NumericFormulaDivision(this, left_siunit, left_node, right_node));
+    trace("Szczepan A 06");
 
     //    assert(canConvert(left_siunit, right_siunit));
 }
@@ -1053,6 +1061,7 @@ void FormulaImplementation::doSquareRoot()
     unique_ptr<NumericFormula> inner_node = popOp();
 
     pushOp(new NumericFormulaSquareRoot(this, siunit, inner_node));
+    trace("Szczepan A 07");
 }
 
 
@@ -1063,6 +1072,7 @@ void FormulaImplementation::doMeterField(Unit u, FieldInfo* fi)
     assert(from_si_unit.convertTo(0, to_si_unit, NULL));
 
     pushOp(new NumericFormulaMeterField(this, u, fi->vname(), fi->xuantity()));
+    trace("Szczepan A 08");
 }
 
 void FormulaImplementation::doDVEntryField(Unit u, DVEntryCounterType ct)

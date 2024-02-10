@@ -98,27 +98,16 @@ namespace wmbus {
                   frameFormat,
                   telegram.c_str());
           //
-          char hexString[8+1];
+          char hexString[8+1]{0};
           sprintf(hexString,"%08X", meter_id);
-          //
-          // char hexKey[32+1]{0};
-          // int i=0;
-          // for (auto it = sensor->key.begin(); it != sensor->key.end(); it++) {
-          //   sprintf((hexKey+i),"%02X", *it);
-          //   ESP_LOGI(TAG, "KEY: [%d]'%s'", i, *(hexKey+i));
-          //   i++;
-          // }
-          string myKey = std::string("00000000000000000000000000000000");
-          ESP_LOGD(TAG, "key: '%s'", myKey.c_str());
           ESP_LOGI(TAG, "key: '%s'", sensor->myKey.c_str());
+          string id = std::string(hexString);
           //
           MeterInfo mi;
-          mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), sensor->myKey);
+          mi.parse(selected_driver->get_name(), selected_driver->get_name(), id, sensor->myKey);
           auto meter = createMeter(&mi);
           AboutTelegram about;
-          string id = std::string(hexString);
           bool id_match = false;
-          // Telegram tt; // maybe NULL
           meter->handleTelegram(about, frame, false, &id, &id_match, NULL);
           double val = meter->getNumericValue("total", Unit::M3);
           ESP_LOGI(TAG, "Mamy z wmbusmeters: %.6f", val);

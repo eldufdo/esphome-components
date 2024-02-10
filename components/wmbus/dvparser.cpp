@@ -156,7 +156,7 @@ bool isInsideVIFRange(Vif vif, VIFRange vif_range)
 bool loadFormatBytesFromSignature(uint16_t format_signature, vector<uchar>* format_bytes)
 {
     if (hash_to_format_.count(format_signature) > 0) {
-        debug("(dvparser) found remembered format for hash %x\n", format_signature);
+        debug("(dvparser) found remembered format for hash %x", format_signature);
         // Return the proper hash!
         hex2bin(hash_to_format_[format_signature], format_bytes);
         return true;
@@ -1122,7 +1122,7 @@ bool parseDV(Telegram* t,
         data_has_difvifs = false;
         format_end = *format + format_len;
         string s = bin2hex(*format, format_end, format_len);
-        debug("(dvparser) using format \"%s\"\n", s.c_str());
+        debug("(dvparser) using format \"%s\"", s.c_str());
     }
 
     dv_entries->clear();
@@ -1155,7 +1155,7 @@ bool parseDV(Telegram* t,
     for (;;)
     {
         id_bytes.clear();
-        DEBUG_PARSER("(dvparser debug) Remaining format data %ju\n", std::distance(*format, format_end));
+        DEBUG_PARSER("(dvparser debug) Remaining format data %ju", std::distance(*format, format_end));
         if (*format == format_end) break;
 
         if (force_mfct_index != -1)
@@ -1165,7 +1165,7 @@ bool parseDV(Telegram* t,
 
             if (index >= force_mfct_index)
             {
-                DEBUG_PARSER("(dvparser) manufacturer specific data, parsing is done.\n", dif);
+                DEBUG_PARSER("(dvparser) manufacturer specific data, parsing is done.", dif);
                 size_t datalen = std::distance(data, data_end);
                 string value = bin2hex(data, data_end, datalen);
                 t->addExplanationAndIncrementPos(data, datalen, KindOfData::CONTENT, Understanding::NONE, "manufacturer specific data %s", value.c_str());
@@ -1177,14 +1177,14 @@ bool parseDV(Telegram* t,
 
         MeasurementType mt = difMeasurementType(dif);
         int datalen = difLenBytes(dif);
-        DEBUG_PARSER("(dvparser debug) dif=%02x datalen=%d \"%s\" type=%s\n", dif, datalen, difType(dif).c_str(),
+        DEBUG_PARSER("(dvparser debug) dif=%02x datalen=%d \"%s\" type=%s", dif, datalen, difType(dif).c_str(),
             measurementTypeName(mt).c_str());
 
         if (datalen == -2)
         {
             if (dif == 0x0f)
             {
-                DEBUG_PARSER("(dvparser) reached dif %02x manufacturer specific data, parsing is done.\n", dif);
+                DEBUG_PARSER("(dvparser) reached dif %02x manufacturer specific data, parsing is done.", dif);
                 datalen = std::distance(data, data_end);
                 string value = bin2hex(data + 1, data_end, datalen - 1);
                 t->mfct_0f_index = 1 + std::distance(data_start, data);
@@ -1194,7 +1194,7 @@ bool parseDV(Telegram* t,
             }
             if (dif == 0x1f)
             {
-                DEBUG_PARSER("(dvparser) reached dif %02x more records in next telegram.\n", dif);
+                DEBUG_PARSER("(dvparser) reached dif %02x more records in next telegram.", dif);
                 datalen = std::distance(data, data_end);
                 string value = bin2hex(data + 1, data_end, datalen - 1);
                 t->mfct_0f_index = 1 + std::distance(data_start, data);
@@ -1202,7 +1202,7 @@ bool parseDV(Telegram* t,
                 t->addExplanationAndIncrementPos(data, datalen, KindOfData::CONTENT, Understanding::FULL, "%02X more data in next telegram %s", dif, value.c_str());
                 break;
             }
-            DEBUG_PARSER("(dvparser) reached unknown dif %02x treating remaining data as manufacturer specific, parsing is done.\n", dif);
+            DEBUG_PARSER("(dvparser) reached unknown dif %02x treating remaining data as manufacturer specific, parsing is done.", dif);
             datalen = std::distance(data, data_end);
             string value = bin2hex(data + 1, data_end, datalen - 1);
             t->mfct_0f_index = 1 + std::distance(data_start, data);
@@ -1252,7 +1252,7 @@ bool parseDV(Telegram* t,
             int storage_nr_bits = (dife & 0x0f);
             storage_nr |= storage_nr_bits << (1 + difenr * 4);
 
-            DEBUG_PARSER("(dvparser debug) dife=%02x (subunit=%d tariff=%d storagenr=%d)\n", dife, subunit, tariff, storage_nr);
+            DEBUG_PARSER("(dvparser debug) dife=%02x (subunit=%d tariff=%d storagenr=%d)", dife, subunit, tariff, storage_nr);
 
             if (data_has_difvifs)
             {
@@ -1282,7 +1282,7 @@ bool parseDV(Telegram* t,
         std::set<VIFCombinable> found_combinable_vifs;
         std::set<uint16_t> found_combinable_vifs_raw;
 
-        DEBUG_PARSER("(dvparser debug) vif=%04x \"%s\"\n", vif, vifType(vif).c_str());
+        DEBUG_PARSER("(dvparser debug) vif=%04x \"%s\"", vif, vifType(vif).c_str());
 
         if (data_has_difvifs)
         {
@@ -1318,7 +1318,7 @@ bool parseDV(Telegram* t,
             for (uchar i = 0; i < viflen; ++i)
             {
                 if (*format == format_end) {
-                    debug("(dvparser) warning: unexpected end of data (vif varlen byte %d/%d expected)\n",
+                    debug("(dvparser) warning: unexpected end of data (vif varlen byte %d/%d expected)",
                         i + 1, viflen); break;
                 }
                 uchar v = **format;
@@ -1335,7 +1335,7 @@ bool parseDV(Telegram* t,
             if (*format == format_end) { debug("(dvparser) warning: unexpected end of data (vife expected)\n"); break; }
 
             uchar vife = **format;
-            DEBUG_PARSER("(dvparser debug) vife=%02x (%s)\n", vife, vifeType(dif, vif, vife).c_str());
+            DEBUG_PARSER("(dvparser debug) vife=%02x (%s)", vife, vifeType(dif, vif, vife).c_str());
 
             if (data_has_difvifs)
             {
@@ -1418,7 +1418,7 @@ bool parseDV(Telegram* t,
             snprintf(hex, 3, "%02X", c);
             dv.append(hex);
         }
-        DEBUG_PARSER("(dvparser debug) key \"%s\"\n", dv.c_str());
+        DEBUG_PARSER("(dvparser debug) key \"%s\"", dv.c_str());
 
         int count = ++dv_count[dv];
         if (count > 1) {
@@ -1427,7 +1427,7 @@ bool parseDV(Telegram* t,
         else {
             strprintf(&key, "%s", dv.c_str());
         }
-        DEBUG_PARSER("(dvparser debug) DifVif key is %s\n", key.c_str());
+        DEBUG_PARSER("(dvparser debug) DifVif key is %s", key.c_str());
 
         int remaining = std::distance(data, data_end);
         if (remaining < 1)
@@ -1437,12 +1437,12 @@ bool parseDV(Telegram* t,
         }
 
         if (variable_length) {
-            DEBUG_PARSER("(dvparser debug) varlen %02x\n", *(data + 0));
+            DEBUG_PARSER("(dvparser debug) varlen %02x", *(data + 0));
             datalen = *(data);
             t->addExplanationAndIncrementPos(data, 1, KindOfData::PROTOCOL, Understanding::FULL, "%02X varlen=%d", *(data + 0), datalen);
             remaining--; // Drop the length byte.
         }
-        DEBUG_PARSER("(dvparser debug) remaining data %d len=%d\n", remaining, datalen);
+        DEBUG_PARSER("(dvparser debug) remaining data %d len=%d", remaining, datalen);
         if (remaining < datalen)
         {
             debug("(dvparser) warning: unexpected end of data\n");
@@ -1467,7 +1467,7 @@ bool parseDV(Telegram* t,
 
         if (isTraceEnabled())
         {
-            trace("[DVPARSER] entry %s\n", dve->str().c_str());
+            trace("[DVPARSER] entry %s", dve->str().c_str());
         }
 
         assert(key == dve->dif_vif_key.str());
@@ -1475,7 +1475,7 @@ bool parseDV(Telegram* t,
         if (value.length() > 0) {
             // This call increments data with datalen.
             t->addExplanationAndIncrementPos(data, datalen, KindOfData::CONTENT, Understanding::NONE, "%s", value.c_str());
-            DEBUG_PARSER("(dvparser debug) data \"%s\"\n\n", value.c_str());
+            DEBUG_PARSER("(dvparser debug) data \"%s\"", value.c_str());
         }
         if (remaining == datalen || data == databytes.end()) {
             // We are done here!
@@ -1489,7 +1489,7 @@ bool parseDV(Telegram* t,
     if (data_has_difvifs) {
         if (hash_to_format_.count(hash) == 0) {
             hash_to_format_[hash] = format_string;
-            debug("(dvparser) found new format \"%s\" with hash %x, remembering!\n", format_string.c_str(), hash);
+            debug("(dvparser) found new format \"%s\" with hash %x, remembering!", format_string.c_str(), hash);
         }
     }
 
@@ -1510,7 +1510,7 @@ bool findKey(MeasurementType mit, VIFRange vif_range, StorageNr storagenr, Tarif
 bool findKeyWithNr(MeasurementType mit, VIFRange vif_range, StorageNr storagenr, TariffNr tariffnr, int nr,
     std::string* key, std::map<std::string, std::pair<int, DVEntry>>* dv_entries)
 {
-    /*debug("(dvparser) looking for type=%s vifrange=%s storagenr=%d tariffnr=%d\n",
+    /*debug("(dvparser) looking for type=%s vifrange=%s storagenr=%d tariffnr=%d",
       measurementTypeName(mit).c_str(), toString(vif_range), storagenr.intValue(), tariffnr.intValue());*/
 
     for (auto& v : *dv_entries)
@@ -1520,7 +1520,7 @@ bool findKeyWithNr(MeasurementType mit, VIFRange vif_range, StorageNr storagenr,
         StorageNr sn = v.second.second.storage_nr;
         TariffNr tn = v.second.second.tariff_nr;
 
-        /* debug("(dvparser) match? %s type=%s vife=%x (%s) and storagenr=%d\n",
+        /* debug("(dvparser) match? %s type=%s vife=%x (%s) and storagenr=%d",
               v.first.c_str(),
               measurementTypeName(ty).c_str(), vi.intValue(), storagenr, sn);*/
 
@@ -1532,7 +1532,7 @@ bool findKeyWithNr(MeasurementType mit, VIFRange vif_range, StorageNr storagenr,
             *key = v.first;
             nr--;
             if (nr <= 0) return true;
-            debug("(dvparser) found key %s for type=%s vif=%x storagenr=%d\n",
+            debug("(dvparser) found key %s for type=%s vif=%x storagenr=%d",
                 v.first.c_str(), measurementTypeName(ty).c_str(),
                 vi.intValue(), storagenr.intValue());
         }
@@ -1601,7 +1601,7 @@ bool extractDVuint8( std::map<string, pair<int, DVEntry>>* dv_entries,
     uchar* value)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract uint8 from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract uint8 from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         *value = 0;
         return false;
@@ -1622,7 +1622,7 @@ bool extractDVuint16( std::map<string, pair<int, DVEntry>>* dv_entries,
     uint16_t* value)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract uint16 from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract uint16 from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         *value = 0;
         return false;
@@ -1643,7 +1643,7 @@ bool extractDVuint24( std::map<string, pair<int, DVEntry>>* dv_entries,
     uint32_t* value)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract uint24 from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract uint24 from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         *value = 0;
         return false;
@@ -1664,7 +1664,7 @@ bool extractDVuint32( std::map<string, pair<int, DVEntry>>* dv_entries,
     uint32_t* value)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract uint32 from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract uint32 from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         *value = 0;
         return false;
@@ -1687,7 +1687,7 @@ bool extractDVdouble( std::map<string, pair<int, DVEntry>>* dv_entries,
     bool assume_signed)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract double from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract double from non-existant key \"%s\"", key.c_str());
         *offset = 0;
         *value = 0;
         return false;
@@ -1696,7 +1696,7 @@ bool extractDVdouble( std::map<string, pair<int, DVEntry>>* dv_entries,
     *offset = p.first;
 
     if (p.second.value.length() == 0) {
-        verbose("(dvparser) warning: key found but no data  \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: key found but no data  \"%s\"", key.c_str());
         *offset = 0;
         *value = 0;
         return false;
@@ -1709,7 +1709,7 @@ bool checkSizeHex(size_t expected_len, DifVifKey& dvk, string& v)
 {
     if (v.length() == expected_len) return true;
 
-    warning("(dvparser) bad decode since difvif %s expected %d hex chars but got \"%s\"\n",
+    warning("(dvparser) bad decode since difvif %s expected %d hex chars but got \"%s\"",
         dvk.str().c_str(), expected_len, v.c_str());
     return false;
 }
@@ -1877,7 +1877,7 @@ double vifScale(int vif)
     case 0x6C: return 1.0; // Date type G
     case 0x6D: return 1.0; // Date&Time type F
     case 0x6E: return 1.0; // Units for H.C.A. are never scaled
-    case 0x6F: warning("(wmbus) warning: do not scale a reserved type!\n"); return -1.0; // Reserved
+    case 0x6F: warning("(wmbus) warning: do not scale a reserved type!"); return -1.0; // Reserved
 
         // wmbusmeters always returns time in hours
     case 0x70: return 3600.0; // Averaging duration seconds
@@ -1962,7 +1962,7 @@ double vifScale(int vif)
     case 0x7F: // Manufacturer specific
         */
 
-    default: warning("(wmbus) warning: type 0x%x cannot be scaled!\n", vif);
+    default: warning("(wmbus) warning: type 0x%x cannot be scaled!", vif);
         return -1;
     }
 }
@@ -2137,7 +2137,7 @@ bool DVEntry::extractDouble(double* out, bool auto_scale, bool assume_signed)
                 }
                 else
                 {
-                    warning("(dvparser) Unsupported dif format for extraction to double! dif=%02x\n", dif_vif_key.dif());
+                    warning("(dvparser) Unsupported dif format for extraction to double! dif=%02x", dif_vif_key.dif());
                     return false;
                 }
 
@@ -2150,7 +2150,7 @@ bool extractDVlong( std::map<string, pair<int, DVEntry>>* dv_entries,
     uint64_t* out)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract long from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract long from non-existant key \"%s\"", key.c_str());
         *offset = 0;
         *out = 0;
         return false;
@@ -2160,7 +2160,7 @@ bool extractDVlong( std::map<string, pair<int, DVEntry>>* dv_entries,
     *offset = p.first;
 
     if (p.second.value.length() == 0) {
-        verbose("(dvparser) warning: key found but no data  \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: key found but no data  \"%s\"", key.c_str());
         *offset = 0;
         *out = 0;
         return false;
@@ -2295,7 +2295,7 @@ bool DVEntry::extractLong(uint64_t* out)
         }
         else
         {
-            error("Unsupported dif format for extraction to long! dif=%02x\n", dif_vif_key.dif());
+            error("Unsupported dif format for extraction to long! dif=%02x", dif_vif_key.dif());
         }
 
     return true;
@@ -2307,7 +2307,7 @@ bool extractDVHexString( std::map<string, pair<int, DVEntry>>* dv_entries,
     string* value)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract string from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract string from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         return false;
     }
@@ -2325,7 +2325,7 @@ bool extractDVReadableString( std::map<string, pair<int, DVEntry>>* dv_entries,
     string* out)
 {
     if ((*dv_entries).count(key) == 0) {
-        verbose("(dvparser) warning: cannot extract string from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract string from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         return false;
     }
@@ -2448,7 +2448,7 @@ bool extractDVdate( std::map<string, pair<int, DVEntry>>* dv_entries,
 {
     if ((*dv_entries).count(key) == 0)
     {
-        verbose("(dvparser) warning: cannot extract date from non-existant key \"%s\"\n", key.c_str());
+        verbose("(dvparser) warning: cannot extract date from non-existant key \"%s\"", key.c_str());
         *offset = -1;
         memset(out, 0, sizeof(struct tm));
         return false;
