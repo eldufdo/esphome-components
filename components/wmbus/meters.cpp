@@ -48,16 +48,15 @@ void verifyDriverLookupCreated()
 
 DriverInfo* lookupDriver(string name)
 {
-    debug("(meters) lookupDriver 01");
+    debug("(meters) lookupDriver 01 \"%s\"", name.c_str());
     verifyDriverLookupCreated();
-    debug("(meters) lookupDriver 02");
 
     // Check if we have a compiled/loaded driver available.
+    debug("(meters) lookupDriver 02 \"%d\":\"%d\"", registered_drivers_->size(), registered_drivers_->count(name));
     if (registered_drivers_->count(name) == 1)
     {
         return &(*registered_drivers_)[name];
     }
-
     debug("(meters) lookupDriver 03");
     // No, ok lets look for driver aliases.
     for (DriverInfo* di : *registered_drivers_list_)
@@ -70,8 +69,6 @@ DriverInfo* lookupDriver(string name)
             }
         }
     }
-
-    debug("(meters) lookupDriver 04");
 
     return NULL;
 }
@@ -1925,7 +1922,7 @@ shared_ptr<Meter> createMeter(MeterInfo* mi)
 
     const char* keymsg = (mi->key[0] == 0) ? "not-encrypted" : "encrypted";
 
-    DriverInfo* di = lookupDriver(mi->driver_name.str());
+    DriverInfo* di = lookupDriver(mi->driver_name.str()); // to wywala sie na evo
 
     debug("(meters) createMeter 02");
 
