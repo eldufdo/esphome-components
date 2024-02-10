@@ -108,10 +108,10 @@ namespace wmbus {
           mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), "");
           auto meter = createMeter(&mi);
           AboutTelegram about;
-          // string id = "4122b45c";
+          string id = std::string(hexString);
           bool id_match = false;
-          Telegram tt;
-          meter->handleTelegram(about, frame, false, &std::string(hexString), &id_match, &tt);
+          Telegram tt; // maybe NULL
+          meter->handleTelegram(about, frame, false, &id, &id_match, &tt);
           double val = meter->getNumericValue("total", Unit::M3);
           ESP_LOGI(TAG, "Mamy z wmbusmeters: %.4f", val);
           //
