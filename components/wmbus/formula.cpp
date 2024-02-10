@@ -88,7 +88,7 @@ double NumericFormulaAddition::calculate(SIUnit to_siunit)
 
     if (isDebugEnabled())
     {
-        debug("(formula) ADD %g (%s) %g (%s) --> %g %s --> %g %s\n",
+        debug("(formula) ADD %g (%s) %g (%s) --> %g %s --> %g %s",
             l, left_->siunit().info().c_str(),
             r, right_->siunit().info().c_str(),
             v, v_siunit.info().c_str(),
@@ -113,7 +113,7 @@ double NumericFormulaSubtraction::calculate(SIUnit to_siunit)
 
     if (isDebugEnabled())
     {
-        debug("(formula) SUB %g (%s) %g (%s) --> %g %s --> %g %s\n",
+        debug("(formula) SUB %g (%s) %g (%s) --> %g %s --> %g %s",
             l, left_->siunit().info().c_str(),
             r, right_->siunit().info().c_str(),
             v, v_siunit.info().c_str(),
@@ -133,7 +133,7 @@ double NumericFormulaMultiplication::calculate(SIUnit to_siunit)
 
     if (isDebugEnabled())
     {
-        debug("(formula) MUL %g (%s) %g (%s) --> %g --> %g %s\n",
+        debug("(formula) MUL %g (%s) %g (%s) --> %g --> %g %s",
             l, left_->siunit().info().c_str(),
             r, right_->siunit().info().c_str(),
             m,
@@ -152,7 +152,7 @@ double NumericFormulaDivision::calculate(SIUnit to_siunit)
 
     if (isDebugEnabled())
     {
-        debug("(formula) DIV %g (%s) %g (%s) --> %g --> %g %s\n",
+        debug("(formula) DIV %g (%s) %g (%s) --> %g --> %g %s",
             l, left_->siunit().info().c_str(),
             r, right_->siunit().info().c_str(),
             d,
@@ -171,7 +171,7 @@ double NumericFormulaExponentiation::calculate(SIUnit to_siunit)
     double v{};
     siunit().convertTo(p, to_siunit, &v);
 
-    debug("(formula) %g <-- %g <-- pow %g ^ %g\n", v, p, l, r);
+    debug("(formula) %g <-- %g <-- pow %g ^ %g", v, p, l, r);
     return v;
 }
 
@@ -184,7 +184,7 @@ double NumericFormulaSquareRoot::calculate(SIUnit to_siunit)
 
     if (isDebugEnabled())
     {
-        debug("(formula) SQRT %g (%s) --> %g --> %g %s\n",
+        debug("(formula) SQRT %g (%s) --> %g --> %g %s",
             i, inner_->siunit().info().c_str(),
             s,
             v,
@@ -628,7 +628,9 @@ size_t FormulaImplementation::parseOps(size_t i)
     {
         size_t next = parseOps(i + 1);
         if (!valid_) return next;
+        trace("Szczepan B 06");
         handleSubtraction(tok);
+        trace("Szczepan B 09");
         return next;
     }
 
@@ -798,8 +800,9 @@ void FormulaImplementation::handleSubtraction(Token* tok)
         valid_ = false;
         return;
     }
-
+    trace("Szczepan B 07");
     doSubtraction(v_siunit);
+    trace("Szczepan B 08");
 }
 
 void FormulaImplementation::handleMultiplication(Token* tok)
@@ -843,7 +846,7 @@ void FormulaImplementation::handleField(Token* field)
     if (dve != DVEntryCounterType::UNKNOWN)
     {
         trace("Szczepan 001");
-        debug("(formula) handle dventry field %s into %s %s\n", field_name.c_str(), vname.c_str(),
+        debug("(formula) handle dventry field %s into %s %s", field_name.c_str(), vname.c_str(),
             unitToStringLowerCase(named_unit).c_str());
 
         trace("Szczepan 002");
@@ -852,7 +855,7 @@ void FormulaImplementation::handleField(Token* field)
     }
     else
     {
-        debug("(formula) handle meter field %s into %s %s\n", field_name.c_str(), vname.c_str(),
+        debug("(formula) handle meter field %s into %s %s", field_name.c_str(), vname.c_str(),
             unitToStringLowerCase(named_unit).c_str());
 
         Quantity q = toQuantity(named_unit);
@@ -898,7 +901,7 @@ bool FormulaImplementation::parse(Meter* m, const string& f)
     meter_ = m;
     formula_ = f;
 
-    debug("(formula) parsing \"%s\"\n", formula_.c_str());
+    debug("(formula) parsing \"%s\"", formula_.c_str());
 
     ok = tokenize();
     if (!ok) return false;
@@ -918,7 +921,7 @@ bool FormulaImplementation::parse(Meter* m, const string& f)
 
     if (isDebugEnabled())
     {
-        debug("(formula) %s\n", tree().c_str());
+        debug("(formula) %s", tree().c_str());
     }
     return valid_;
 }
@@ -943,14 +946,14 @@ double FormulaImplementation::calculate(Unit to, DVEntry* dve, Meter* m)
     if (!valid_)
     {
         string t = tree();
-        warning("Warning! Formula is not valid! Returning nan!\n%s\n", t.c_str());
+        warning("Warning! Formula is not valid! Returning nan!\n%s", t.c_str());
         return std::nan("");
     }
 
     if (op_stack_.size() != 1)
     {
         string t = tree();
-        warning("Warning! Formula is not valid! Multiple ops on stack! Returning nan!\n%s\n", t.c_str());
+        warning("Warning! Formula is not valid! Multiple ops on stack! Returning nan!\n%s", t.c_str());
         return std::nan("");
     }
 
@@ -1026,7 +1029,7 @@ void FormulaImplementation::doDivision()
     string rsis = right_siunit.info();
     string dsis = div_siunit.info();
 
-    debug("(formula) unit %s DIV %s ==> %s\n", lsis.c_str(), rsis.c_str(), dsis.c_str());
+    debug("(formula) unit %s DIV %s ==> %s", lsis.c_str(), rsis.c_str(), dsis.c_str());
 
     pushOp(new NumericFormulaDivision(this, div_siunit, left_node, right_node));
     trace("Szczepan A 05");

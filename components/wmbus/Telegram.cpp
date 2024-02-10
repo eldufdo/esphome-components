@@ -648,7 +648,7 @@ void Telegram::printTPL()
             tpl_version, tpl_type, info.c_str());
     }
 
-    verbose("\n");
+    verbose("");
 }
 
 string manufacturer(int m_field) {
