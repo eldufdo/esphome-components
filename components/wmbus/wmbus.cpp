@@ -102,7 +102,7 @@ namespace wmbus {
           sprintf(hexString,"%08X", meter_id);
           //
           char hexKey[32+1];
-          int i=0
+          int i=0;
           for (auto it = sensor->key.begin(); it != sensor->key.end(); it++) {
             sprintf(hexKey[i],"%02X", *it);
             i++;
