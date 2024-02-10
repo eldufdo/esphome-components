@@ -128,17 +128,17 @@ namespace
             .set(StorageNr(3))
             );
 
-        addNumericFieldWithExtractor(
-            "consumption_at_history_{storage_counter-7counter}",
-            "The total water consumption at the historic date.",
-            DEFAULT_PRINT_PROPERTIES,
-            Quantity::Volume,
-            VifScaling::Auto,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Volume)
-            .set(StorageNr(8),StorageNr(19))
-            );
+        // addNumericFieldWithExtractor(
+        //     "consumption_at_history_{storage_counter-7counter}",
+        //     "The total water consumption at the historic date.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     Quantity::Volume,
+        //     VifScaling::Auto,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Volume)
+        //     .set(StorageNr(8),StorageNr(19))
+        //     );
 
         addNumericFieldWithExtractor(
             "history_reference",
@@ -153,18 +153,18 @@ namespace
             Unit::DateLT
             );
 
-        addNumericFieldWithCalculatorAndMatcher(
-            "history_{storage_counter-7counter}",
-            "The historic date #.",
-            DEFAULT_PRINT_PROPERTIES,
-            Quantity::PointInTime,
-            "history_reference_date - ((storage_counter-8counter) * 1 month)",
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Volume)
-            .set(StorageNr(8),StorageNr(19)),
-            Unit::DateLT
-            );
+        // addNumericFieldWithCalculatorAndMatcher(
+        //     "history_{storage_counter-7counter}",
+        //     "The historic date #.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     Quantity::PointInTime,
+        //     "history_reference_date - ((storage_counter-8counter) * 1 month)",
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Volume)
+        //     .set(StorageNr(8),StorageNr(19)),
+        //     Unit::DateLT
+        //     );
 
         addStringFieldWithExtractor(
             "device_date_time",
