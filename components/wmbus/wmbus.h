@@ -58,6 +58,7 @@ namespace wmbus {
       uint32_t id;
       std::string type;
       FrameMode framemode{};
+      std::string myKey;
       std::vector<unsigned char> key{};
       std::map<std::string, sensor::Sensor *> sensors_{};
       void add_sensor(std::string type, sensor::Sensor *sensor) {

@@ -109,10 +109,11 @@ namespace wmbus {
           //   i++;
           // }
           string myKey = std::string("00000000000000000000000000000000");
-          ESP_LOGI(TAG, "key: '%s'", myKey.c_str());
+          ESP_LOGD(TAG, "key: '%s'", myKey.c_str());
+          ESP_LOGI(TAG, "key: '%s'", this->myKey.c_str());
           //
           MeterInfo mi;
-          mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), myKey);
+          mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), this->myKey);
           auto meter = createMeter(&mi);
           AboutTelegram about;
           string id = std::string(hexString);
@@ -459,12 +460,14 @@ namespace wmbus {
     this->id = id;
     this->type = type;
     this->framemode = framemode;
+    this->myKey = key;
     hex_to_bin(key, &(this->key));
   }
 
   WMBusListener::WMBusListener(const uint32_t id, const std::string type, const std::string key) {
     this->id = id;
     this->type = type;
+    this->myKey = key;
     hex_to_bin(key, &(this->key));
   }
 
