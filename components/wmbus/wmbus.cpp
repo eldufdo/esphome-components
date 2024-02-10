@@ -98,14 +98,20 @@ namespace wmbus {
                   frameFormat,
                   telegram.c_str());
           //
+            char hexString[8+1];
+          // returns decimal value of hex
+          sprintf(hexString,"%08X", meter_id); 
+          //
+
+          //
           MeterInfo mi;
-          mi.parse("izar", "izar", "4122b45c", "");
+          mi.parse(selected_driver->get_name(), selected_driver->get_name(), std::string(hexString), "");
           auto meter = createMeter(&mi);
           AboutTelegram about;
-          string id = "4122b45c";
+          // string id = "4122b45c";
           bool id_match = false;
           Telegram tt;
-          meter->handleTelegram(about, frame, false, &id, &id_match, &tt);
+          meter->handleTelegram(about, frame, false, &std::string(hexString), &id_match, &tt);
           double val = meter->getNumericValue("total", Unit::M3);
           ESP_LOGI(TAG, "Mamy z wmbusmeters: %.4f", val);
           //

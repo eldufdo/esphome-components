@@ -234,44 +234,34 @@ std::string safeString(std::vector<uchar>& target) {
 void warning(const char* fmt, ...) {
   va_list arg;
   va_start(arg, fmt);
-  // esp_log_printf_(ESPHOME_LOG_LEVEL_VERY_VERBOSE, tag, __LINE__, ESPHOME_LOG_FORMAT(format), ##__VA_ARGS__)
-  // esp_log_printf_(int level, const char *tag, int line, const char *format, ...) 
-  esphome::esp_log_vprintf_(3, "wmbusmeters", __LINE__, fmt, arg);
+  esphome::esp_log_vprintf_(3, "wmbusmeters", 1, fmt, arg);
   va_end(arg);
 }
 
 void error(const char* fmt, ...) {
   va_list arg;
   va_start(arg, fmt);
-  // esp_log_printf_(ESPHOME_LOG_LEVEL_VERY_VERBOSE, tag, __LINE__, ESPHOME_LOG_FORMAT(format), ##__VA_ARGS__)
-  // esp_log_printf_(int level, const char *tag, int line, const char *format, ...) 
-  esphome::esp_log_vprintf_(3, "wmbusmeters", __LINE__, fmt, arg);
+  esphome::esp_log_vprintf_(3, "wmbusmeters", 2, fmt, arg);
   va_end(arg);
 }
 
 void debug(const char* fmt, ...) {
   va_list arg;
   va_start(arg, fmt);
-  // esp_log_printf_(ESPHOME_LOG_LEVEL_VERY_VERBOSE, tag, __LINE__, ESPHOME_LOG_FORMAT(format), ##__VA_ARGS__)
-  // esp_log_printf_(int level, const char *tag, int line, const char *format, ...) 
-  esphome::esp_log_vprintf_(3, "wmbusmeters", __LINE__, fmt, arg);
+  esphome::esp_log_vprintf_(3, "wmbusmeters", 3, fmt, arg);
   va_end(arg);
 }
 
 void verbose(const char* fmt, ...) {
   va_list arg;
   va_start(arg, fmt);
-  // esp_log_printf_(ESPHOME_LOG_LEVEL_VERY_VERBOSE, tag, __LINE__, ESPHOME_LOG_FORMAT(format), ##__VA_ARGS__)
-  // esp_log_printf_(int level, const char *tag, int line, const char *format, ...) 
-  esphome::esp_log_vprintf_(3, "wmbusmeters", __LINE__, fmt, arg);
+  esphome::esp_log_vprintf_(3, "wmbusmeters", 4, fmt, arg);
   va_end(arg);
 }
 
 void trace(const char* fmt, ...) {
   va_list arg;
   va_start(arg, fmt);
-  // esp_log_printf_(ESPHOME_LOG_LEVEL_VERY_VERBOSE, tag, __LINE__, ESPHOME_LOG_FORMAT(format), ##__VA_ARGS__)
-  // esp_log_printf_(int level, const char *tag, int line, const char *format, ...) 
   esphome::esp_log_vprintf_(3, "wmbusmeters", __LINE__, fmt, arg);
   va_end(arg);
 }
