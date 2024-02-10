@@ -1451,7 +1451,9 @@ bool isValidBps(const string& b)
 
 bool MeterInfo::parse(string n, string d, string i, string k)
 {
+    debug("(meters) parse 01");
     clear();
+    debug("(meters) parse 02");
 
     name = n;
     ids = splitMatchExpressions(i);
@@ -1509,6 +1511,7 @@ bool MeterInfo::parse(string n, string d, string i, string k)
         // that the meter can transmit on.
         // link_modes = toMeterLinkModeSet(driver);
     }
+    debug("(meters) parse xx");
 
     return true;
 }
