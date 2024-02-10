@@ -628,7 +628,7 @@ size_t FormulaImplementation::parseOps(size_t i)
     {
         size_t next = parseOps(i + 1);
         if (!valid_) return next;
-        trace("Szczepan B 06");
+        trace("Szczepan B 06, %d", next);
         handleSubtraction(tok);
         trace("Szczepan B 09");
         return next;
@@ -699,6 +699,7 @@ size_t FormulaImplementation::parsePar(size_t i)
     assert(tok->type == TokenType::LPAR);
 
     i++;
+    trace("Szczepan C PAR i='%d'", i);
     for (;;)
     {
         tok = LA(i);
@@ -800,9 +801,9 @@ void FormulaImplementation::handleSubtraction(Token* tok)
         valid_ = false;
         return;
     }
-    trace("Szczepan B 07");
+    // trace("Szczepan B 07");
     doSubtraction(v_siunit);
-    trace("Szczepan B 08");
+    // trace("Szczepan B 08");
 }
 
 void FormulaImplementation::handleMultiplication(Token* tok)
@@ -845,13 +846,13 @@ void FormulaImplementation::handleField(Token* field)
 
     if (dve != DVEntryCounterType::UNKNOWN)
     {
-        trace("Szczepan 001");
+        // trace("Szczepan 001");
         debug("(formula) handle dventry field %s into %s %s", field_name.c_str(), vname.c_str(),
             unitToStringLowerCase(named_unit).c_str());
 
-        trace("Szczepan 002");
+        // trace("Szczepan 002");
         doDVEntryField(named_unit, dve);
-        trace("Szczepan 008");
+        // trace("Szczepan 008");
     }
     else
     {
@@ -875,6 +876,7 @@ void FormulaImplementation::handleField(Token* field)
 bool FormulaImplementation::go()
 {
     size_t i = 0;
+    trace("Szczepan C GO");
 
     for (;;)
     {
@@ -1080,9 +1082,9 @@ void FormulaImplementation::doMeterField(Unit u, FieldInfo* fi)
 
 void FormulaImplementation::doDVEntryField(Unit u, DVEntryCounterType ct)
 {
-    trace("Szczepan 003");
+    // trace("Szczepan 003");
     pushOp(new NumericFormulaDVEntryField(this, Unit::COUNTER, ct));
-    trace("Szczepan 007");
+    // trace("Szczepan 007");
 }
 
 Formula* newFormula()
@@ -1193,9 +1195,9 @@ string NumericFormulaDVEntryField::tree()
 
 void FormulaImplementation::pushOp(NumericFormula* nf)
 {
-    trace("Szczepan 005");
+    // trace("Szczepan 005");
     op_stack_.push_back(unique_ptr<NumericFormula>(nf));
-    trace("Szczepan 006");
+    // trace("Szczepan 006");
 }
 
 unique_ptr<NumericFormula> FormulaImplementation::popOp()
