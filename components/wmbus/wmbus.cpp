@@ -115,10 +115,10 @@ namespace wmbus {
           AboutTelegram about;
           string id = std::string(hexString);
           bool id_match = false;
-          Telegram tt; // maybe NULL
+          // Telegram tt; // maybe NULL
           meter->handleTelegram(about, frame, false, &id, &id_match, NULL);
           double val = meter->getNumericValue("total", Unit::M3);
-          ESP_LOGI(TAG, "Mamy z wmbusmeters: %.4f", val);
+          ESP_LOGI(TAG, "Mamy z wmbusmeters: %.6f", val);
           //
           if (sensor->key.size()) {
             ESP_LOGVV(TAG, "Key defined, trying to decrypt telegram ...");
