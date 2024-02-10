@@ -27,7 +27,8 @@ namespace
     static bool ok = registerDriver([](DriverInfo&di)
     {
         di.setName("evo868");
-        di.setDefaultFields("name,id,total_m3,current_status,consumption_at_set_date_m3,set_date,timestamp");
+        // di.setDefaultFields("name,id,total_m3,current_status,consumption_at_set_date_m3,set_date,timestamp");
+        di.setDefaultFields("name,id,total_m3,current_status");
         di.setMeterType(MeterType::WaterMeter);
         di.addLinkMode(LinkMode::T1);
         di.setConstructor([](MeterInfo& mi, DriverInfo& di){ return shared_ptr<Meter>(new Driver(mi, di)); });
@@ -62,49 +63,49 @@ namespace
         addOptionalCommonFields("fabrication_no");
         addOptionalFlowRelatedFields("total_m3");
 
-        addNumericFieldWithExtractor(
-            "consumption_at_set_date",
-            "The total water consumption at the most recent billing period date.",
-            DEFAULT_PRINT_PROPERTIES,
-            Quantity::Volume,
-            VifScaling::Auto,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Volume)
-            .set(StorageNr(1))
-            );
+        // addNumericFieldWithExtractor(
+        //     "consumption_at_set_date",
+        //     "The total water consumption at the most recent billing period date.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     Quantity::Volume,
+        //     VifScaling::Auto,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Volume)
+        //     .set(StorageNr(1))
+        //     );
 
-        addStringFieldWithExtractor(
-            "set_date",
-            "The most recent billing period date.",
-            DEFAULT_PRINT_PROPERTIES,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Date)
-            .set(StorageNr(1))
-            );
+        // addStringFieldWithExtractor(
+        //     "set_date",
+        //     "The most recent billing period date.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Date)
+        //     .set(StorageNr(1))
+        //     );
 
-        addNumericFieldWithExtractor(
-            "consumption_at_set_date_2",
-            "The total water consumption at the second most recent billing period date.",
-            DEFAULT_PRINT_PROPERTIES,
-            Quantity::Volume,
-            VifScaling::Auto,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Volume)
-            .set(StorageNr(2))
-            );
+        // addNumericFieldWithExtractor(
+        //     "consumption_at_set_date_2",
+        //     "The total water consumption at the second most recent billing period date.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     Quantity::Volume,
+        //     VifScaling::Auto,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Volume)
+        //     .set(StorageNr(2))
+        //     );
 
-        addStringFieldWithExtractor(
-            "set_date_2",
-            "The second most recent billing period date.",
-            DEFAULT_PRINT_PROPERTIES,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Date)
-            .set(StorageNr(2))
-            );
+        // addStringFieldWithExtractor(
+        //     "set_date_2",
+        //     "The second most recent billing period date.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Date)
+        //     .set(StorageNr(2))
+        //     );
 
         addNumericFieldWithExtractor(
             "max_flow_since_datetime",
@@ -140,18 +141,18 @@ namespace
         //     .set(StorageNr(8),StorageNr(19))
         //     );
 
-        addNumericFieldWithExtractor(
-            "history_reference",
-            "Reference date for history.",
-            DEFAULT_PRINT_PROPERTIES,
-            Quantity::PointInTime,
-            VifScaling::Auto,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::Date)
-            .set(StorageNr(8)),
-            Unit::DateLT
-            );
+        // addNumericFieldWithExtractor(
+        //     "history_reference",
+        //     "Reference date for history.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     Quantity::PointInTime,
+        //     VifScaling::Auto,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::Date)
+        //     .set(StorageNr(8)),
+        //     Unit::DateLT
+        //     );
 
         // addNumericFieldWithCalculatorAndMatcher(
         //     "history_{storage_counter-7counter}",
@@ -166,14 +167,14 @@ namespace
         //     Unit::DateLT
         //     );
 
-        addStringFieldWithExtractor(
-            "device_date_time",
-            "Date and time when the meter sent the telegram.",
-            DEFAULT_PRINT_PROPERTIES,
-            FieldMatcher::build()
-            .set(MeasurementType::Instantaneous)
-            .set(VIFRange::DateTime)
-            );
+        // addStringFieldWithExtractor(
+        //     "device_date_time",
+        //     "Date and time when the meter sent the telegram.",
+        //     DEFAULT_PRINT_PROPERTIES,
+        //     FieldMatcher::build()
+        //     .set(MeasurementType::Instantaneous)
+        //     .set(VIFRange::DateTime)
+        //     );
     }
 
 }
