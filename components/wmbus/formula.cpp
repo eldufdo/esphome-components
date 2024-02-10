@@ -841,10 +841,13 @@ void FormulaImplementation::handleField(Token* field)
 
     if (dve != DVEntryCounterType::UNKNOWN)
     {
+        trace("Szczepan 001");
         debug("(formula) handle dventry field %s into %s %s\n", field_name.c_str(), vname.c_str(),
             unitToStringLowerCase(named_unit).c_str());
 
+        trace("Szczepan 002");
         doDVEntryField(named_unit, dve);
+        trace("Szczepan 008");
     }
     else
     {
@@ -1064,7 +1067,9 @@ void FormulaImplementation::doMeterField(Unit u, FieldInfo* fi)
 
 void FormulaImplementation::doDVEntryField(Unit u, DVEntryCounterType ct)
 {
+    trace("Szczepan 003");
     pushOp(new NumericFormulaDVEntryField(this, Unit::COUNTER, ct));
+    trace("Szczepan 007");
 }
 
 Formula* newFormula()
@@ -1175,7 +1180,9 @@ string NumericFormulaDVEntryField::tree()
 
 void FormulaImplementation::pushOp(NumericFormula* nf)
 {
+    trace("Szczepan 005");
     op_stack_.push_back(unique_ptr<NumericFormula>(nf));
+    trace("Szczepan 006");
 }
 
 unique_ptr<NumericFormula> FormulaImplementation::popOp()

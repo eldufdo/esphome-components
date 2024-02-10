@@ -53,6 +53,12 @@ DriverInfo* lookupDriver(string name)
 
     // Check if we have a compiled/loaded driver available.
     debug("(meters) lookupDriver 02 \"%d\":\"%d\"", registered_drivers_->size(), registered_drivers_->count(name));
+    
+    // std::map<string, DriverInfo> itr1;
+    // for (itr1=registered_drivers_.begin();itr1!=registered_drivers_.end();++itr1) { 
+    //     cout<<registered_drivers_->first<<'\n'; 
+    // }
+    
     if (registered_drivers_->count(name) == 1)
     {
         return &(*registered_drivers_)[name];
