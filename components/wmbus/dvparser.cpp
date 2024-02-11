@@ -1471,7 +1471,7 @@ bool parseDV(Telegram* t,
         debug("(meters) Szczepan parseDV 04");
 
         debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
-        debug("(meters) Szczepan parseDV 04.2 first '%d'", &(*dv_entries)[key].firs);
+        debug("(meters) Szczepan parseDV 04.2 first '%d'", &(*dv_entries)[key].first);
 
         DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
