@@ -1095,20 +1095,27 @@ bool parseDV(Telegram* t,
     size_t format_len,
     uint16_t* format_hash)
 {
+    debug("(meters) Szczepan parseDV 01");
      std::map<string, int> dv_count;
     vector<uchar> format_bytes;
+    debug("(meters) Szczepan parseDV 02");
     vector<uchar> id_bytes;
     vector<uchar> data_bytes;
+    debug("(meters) Szczepan parseDV 03");
     string dv, key;
     size_t start_parse_here = t->parsed.size();
+    debug("(meters) Szczepan parseDV 04");
     vector<uchar>::iterator data_start = data;
     vector<uchar>::iterator data_end = data + data_len;
+    debug("(meters) Szczepan parseDV 05");
     vector<uchar>::iterator format_end;
     bool data_has_difvifs = true;
     bool variable_length = false;
+    debug("(meters) Szczepan parseDV 06");
     int force_mfct_index = t->force_mfct_index;
 
     if (format == NULL) {
+        debug("(meters) Szczepan parseDV 07");
         // No format string was supplied, we therefore assume
         // that the difvifs necessary to parse the data is
         // part of the data! This is the default.
@@ -1116,6 +1123,7 @@ bool parseDV(Telegram* t,
         format_end = data_end;
     }
     else {
+        debug("(meters) Szczepan parseDV 08");
         // A format string has been supplied. The data is compressed,
         // and can only be decoded using the supplied difvifs.
         // Since the data does not have the difvifs.
@@ -1126,6 +1134,7 @@ bool parseDV(Telegram* t,
     }
 
     dv_entries->clear();
+    debug("(meters) Szczepan parseDV 09");
 
     // Data format is:
 
@@ -1152,6 +1161,7 @@ bool parseDV(Telegram* t,
 
     format_bytes.clear();
     id_bytes.clear();
+    debug("(meters) Szczepan parseDV 10");
     for (;;)
     {
         id_bytes.clear();

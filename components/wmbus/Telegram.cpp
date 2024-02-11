@@ -2070,24 +2070,22 @@ bool Telegram::parse_TPL_79(vector<uchar>::iterator& pos)
 
 bool Telegram::parse_TPL_7A(vector<uchar>::iterator& pos)
 {
-    debug("(meters) Szczepan parseTPL 03");
+    
     bool ok = parseShortTPL(pos);
-    debug("(meters) Szczepan parseTPL 04");
     if (!ok) return false;
 
     bool decrypt_ok = potentiallyDecrypt(pos);
-debug("(meters) Szczepan parseTPL 05");
     header_size = distance(frame.begin(), pos);
     int remaining = distance(pos, frame.end()) - suffix_size;
 
     if (decrypt_ok)
     {
-        debug("(meters) Szczepan parseTPL 06");
+        debug("(meters) Szczepan parseTPL 03");
         parseDV(this, frame, pos, remaining, &dv_entries);
     }
     else
     {
-        debug("(meters) Szczepan parseTPL 07");
+        
         decryption_failed = true;
     }
     return true;
