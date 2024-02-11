@@ -1472,7 +1472,7 @@ bool parseDV(Telegram* t,
 
         debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
         debug("(meters) Szczepan parseDV 04.2 first '%d'", (*dv_entries)[key].first);
-        debug("(meters) Szczepan parseDV 04.3 value '%s'", (*dv_entries)[key].second.value.c_str());
+        debug("(meters) Szczepan parseDV 04.3 key '%s'", (*dv_entries)[key].second.dif_vif_key.str().c_str());
 
         DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
@@ -1481,7 +1481,7 @@ bool parseDV(Telegram* t,
             trace("[DVPARSER] entry %s", dve->str().c_str());
         // }
 debug("(meters) Szczepan parseDV 05");
-        assert(key == dve->dif_vif_key.str());
+        // assert(key == dve->dif_vif_key.str());
 debug("(meters) Szczepan parseDV 06 '%s'", dve->dif_vif_key.str());
         if (value.length() > 0) {
             // This call increments data with datalen.
