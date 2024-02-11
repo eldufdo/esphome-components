@@ -1458,31 +1458,31 @@ bool parseDV(Telegram* t,
 
         // debug("(meters) Szczepan parseDV 03.1 size '%d'", dv_entries->size());
 
-        (*dv_entries)[key] = { offset, DVEntry(offset,
-                                               key,
-                                               mt,
-                                               Vif(full_vif),
-                                               found_combinable_vifs,
-                                               found_combinable_vifs_raw,
-                                               StorageNr(storage_nr),
-                                               TariffNr(tariff),
-                                               SubUnitNr(subunit),
-                                               value) };
+        // (*dv_entries)[key] = { offset, DVEntry(offset,
+        //                                        key,
+        //                                        mt,
+        //                                        Vif(full_vif),
+        //                                        found_combinable_vifs,
+        //                                        found_combinable_vifs_raw,
+        //                                        StorageNr(storage_nr),
+        //                                        TariffNr(tariff),
+        //                                        SubUnitNr(subunit),
+        //                                        value) };
         debug("(meters) Szczepan parseDV 04");
 
         debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
         debug("(meters) Szczepan parseDV 04.2 first '%d'", (*dv_entries)[key].first);
         debug("(meters) Szczepan parseDV 04.3 key '%s'", (*dv_entries)[key].second.dif_vif_key.str().c_str());
 
-        DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
+        // DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
         // if (isTraceEnabled())
         // {
-            trace("[DVPARSER] entry %s", dve->str().c_str());
+            // trace("[DVPARSER] entry %s", dve->str().c_str());
         // }
 debug("(meters) Szczepan parseDV 05");
         // assert(key == dve->dif_vif_key.str());
-debug("(meters) Szczepan parseDV 06 '%s'", dve->dif_vif_key.str());
+// debug("(meters) Szczepan parseDV 06 '%s'", dve->dif_vif_key.str());
         if (value.length() > 0) {
             // This call increments data with datalen.
             t->addExplanationAndIncrementPos(data, datalen, KindOfData::CONTENT, Understanding::NONE, "%s", value.c_str());
