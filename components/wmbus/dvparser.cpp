@@ -1456,7 +1456,7 @@ bool parseDV(Telegram* t,
         int offset = start_parse_here + data - data_start;
         debug("(meters) Szczepan parseDV 03");
 
-        debug("(meters) Szczepan parseDV 03.1 size '%d'", dv_entries->size());
+        // debug("(meters) Szczepan parseDV 03.1 size '%d'", dv_entries->size());
 
         (*dv_entries)[key] = { offset, DVEntry(offset,
                                                key,
@@ -1471,6 +1471,7 @@ bool parseDV(Telegram* t,
         debug("(meters) Szczepan parseDV 04");
 
         debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
+        debug("(meters) Szczepan parseDV 04.2 first '%d'", &(*dv_entries)[key].firs);
 
         DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
