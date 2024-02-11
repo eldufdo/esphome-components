@@ -2070,20 +2070,24 @@ bool Telegram::parse_TPL_79(vector<uchar>::iterator& pos)
 
 bool Telegram::parse_TPL_7A(vector<uchar>::iterator& pos)
 {
+    debug("(meters) Szczepan parseTPL 03");
     bool ok = parseShortTPL(pos);
+    debug("(meters) Szczepan parseTPL 04");
     if (!ok) return false;
 
     bool decrypt_ok = potentiallyDecrypt(pos);
-
+debug("(meters) Szczepan parseTPL 05");
     header_size = distance(frame.begin(), pos);
     int remaining = distance(pos, frame.end()) - suffix_size;
 
     if (decrypt_ok)
     {
+        debug("(meters) Szczepan parseTPL 06");
         parseDV(this, frame, pos, remaining, &dv_entries);
     }
     else
     {
+        debug("(meters) Szczepan parseTPL 07");
         decryption_failed = true;
     }
     return true;
@@ -2120,24 +2124,23 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
 debug("(meters) Szczepan parseTPL 01");
     switch (tpl_ci)
     {
-    case CI_Field_Values::TPL_72: {debug("(meters) Szczepan parseTPL 02"); return parse_TPL_72(pos);}
-    case CI_Field_Values::TPL_78: {debug("(meters) Szczepan parseTPL 03"); return parse_TPL_78(pos);}
-    case CI_Field_Values::TPL_79: {debug("(meters) Szczepan parseTPL 04"); return parse_TPL_79(pos);}
-    case CI_Field_Values::TPL_7A: {debug("(meters) Szczepan parseTPL 05"); return parse_TPL_7A(pos);}
+    case CI_Field_Values::TPL_72: return parse_TPL_72(pos);
+    case CI_Field_Values::TPL_78: return parse_TPL_78(pos);
+    case CI_Field_Values::TPL_79: return parse_TPL_79(pos);
+    case CI_Field_Values::TPL_7A: {debug("(meters) Szczepan parseTPL 02"); return parse_TPL_7A(pos);}
     default:
     {
         // A0 to B7 are manufacturer specific.
-        debug("(meters) Szczepan parseTPL 06");
         header_size = distance(frame.begin(), pos);
         int num_mfct_bytes = frame.end() - pos - suffix_size;
         string info = bin2hex(pos, frame.end(), num_mfct_bytes);
         info += " mfct specific";
         addExplanationAndIncrementPos(pos, num_mfct_bytes, KindOfData::CONTENT, Understanding::NONE, info.c_str());
-        debug("(meters) Szczepan parseTPL 07");
+
         return true; // Manufacturer specific telegram payload. Oh well....
     }
     }
-debug("(meters) Szczepan parseTPL 08");
+debug("(meters) Szczepan parseTPL 10");
     header_size = distance(frame.begin(), pos);
     if (parser_warns_)
     {
