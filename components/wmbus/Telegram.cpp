@@ -2098,12 +2098,15 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
 
     int ci_field = *pos;
     int mfct_specific = isCiFieldManufacturerSpecific(ci_field);
+    debug("(meters) Szczepan parseTPL 01");
 
     if (!isCiFieldOfType(ci_field, CI_TYPE::TPL) && !mfct_specific)
     {
+        debug("(meters) Szczepan parseTPL 02");
         addExplanationAndIncrementPos(pos, 1, KindOfData::PROTOCOL, Understanding::NONE,
             "%02x unknown ci-field",
             ci_field);
+            debug("(meters) Szczepan parseTPL 03");
         if (parser_warns_)
         {
             warning("(wmbus) Unknown tpl-ci-field %02x", ci_field);
@@ -2112,14 +2115,15 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
     }
     tpl_ci = ci_field;
     tpl_start = pos;
-
+debug("(meters) Szczepan parseTPL 04");
     addExplanationAndIncrementPos(pos, 1, KindOfData::PROTOCOL, Understanding::FULL,
         "%02x tpl-ci-field (%s)",
         tpl_ci, ciType(tpl_ci).c_str());
+        debug("(meters) Szczepan parseTPL 05");
     int len = ciFieldLength(tpl_ci);
-
+debug("(meters) Szczepan parseTPL 06");
     if (remaining < len + 1 && !mfct_specific) return expectedMore(__LINE__);
-
+debug("(meters) Szczepan parseTPL 07");
     switch (tpl_ci)
     {
     case CI_Field_Values::TPL_72: return parse_TPL_72(pos);
@@ -2138,12 +2142,13 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
         return true; // Manufacturer specific telegram payload. Oh well....
     }
     }
-
+debug("(meters) Szczepan parseTPL 08");
     header_size = distance(frame.begin(), pos);
     if (parser_warns_)
     {
         warning("(wmbus) Not implemented tpl-ci %02x", tpl_ci);
     }
+    debug("(meters) Szczepan parseTPL 09");
     return false;
 }
 
