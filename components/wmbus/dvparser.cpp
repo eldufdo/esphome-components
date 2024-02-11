@@ -1450,9 +1450,11 @@ bool parseDV(Telegram* t,
             debug("(dvparser) warning: unexpected end of data\n");
             datalen = remaining - 1;
         }
+        debug("(meters) Szczepan parseDV 02");
 
         string value = bin2hex(data, data_end, datalen);
         int offset = start_parse_here + data - data_start;
+        debug("(meters) Szczepan parseDV 03");
 
         (*dv_entries)[key] = { offset, DVEntry(offset,
                                                key,
@@ -1464,16 +1466,17 @@ bool parseDV(Telegram* t,
                                                TariffNr(tariff),
                                                SubUnitNr(subunit),
                                                value) };
+        debug("(meters) Szczepan parseDV 04");
 
         DVEntry* dve = &(*dv_entries)[key].second;
 
-        if (isTraceEnabled())
-        {
+        // if (isTraceEnabled())
+        // {
             trace("[DVPARSER] entry %s", dve->str().c_str());
-        }
-
+        // }
+debug("(meters) Szczepan parseDV 05");
         assert(key == dve->dif_vif_key.str());
-
+debug("(meters) Szczepan parseDV 06 '%s'", dve->dif_vif_key.str());
         if (value.length() > 0) {
             // This call increments data with datalen.
             t->addExplanationAndIncrementPos(data, datalen, KindOfData::CONTENT, Understanding::NONE, "%s", value.c_str());
