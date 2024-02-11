@@ -2098,15 +2098,12 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
 
     int ci_field = *pos;
     int mfct_specific = isCiFieldManufacturerSpecific(ci_field);
-    debug("(meters) Szczepan parseTPL 01");
 
     if (!isCiFieldOfType(ci_field, CI_TYPE::TPL) && !mfct_specific)
     {
-        debug("(meters) Szczepan parseTPL 02");
         addExplanationAndIncrementPos(pos, 1, KindOfData::PROTOCOL, Understanding::NONE,
             "%02x unknown ci-field",
             ci_field);
-            debug("(meters) Szczepan parseTPL 03");
         if (parser_warns_)
         {
             warning("(wmbus) Unknown tpl-ci-field %02x", ci_field);
@@ -2115,30 +2112,28 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
     }
     tpl_ci = ci_field;
     tpl_start = pos;
-debug("(meters) Szczepan parseTPL 04");
     addExplanationAndIncrementPos(pos, 1, KindOfData::PROTOCOL, Understanding::FULL,
         "%02x tpl-ci-field (%s)",
         tpl_ci, ciType(tpl_ci).c_str());
-        debug("(meters) Szczepan parseTPL 05");
     int len = ciFieldLength(tpl_ci);
-debug("(meters) Szczepan parseTPL 06");
     if (remaining < len + 1 && !mfct_specific) return expectedMore(__LINE__);
-debug("(meters) Szczepan parseTPL 07");
+debug("(meters) Szczepan parseTPL 01");
     switch (tpl_ci)
     {
-    case CI_Field_Values::TPL_72: return parse_TPL_72(pos);
-    case CI_Field_Values::TPL_78: return parse_TPL_78(pos);
-    case CI_Field_Values::TPL_79: return parse_TPL_79(pos);
-    case CI_Field_Values::TPL_7A: return parse_TPL_7A(pos);
+    case CI_Field_Values::TPL_72: {debug("(meters) Szczepan parseTPL 02"); return parse_TPL_72(pos);}
+    case CI_Field_Values::TPL_78: {debug("(meters) Szczepan parseTPL 03"); return parse_TPL_78(pos);}
+    case CI_Field_Values::TPL_79: {debug("(meters) Szczepan parseTPL 04"); return parse_TPL_79(pos);}
+    case CI_Field_Values::TPL_7A: {debug("(meters) Szczepan parseTPL 05"); return parse_TPL_7A(pos);}
     default:
     {
         // A0 to B7 are manufacturer specific.
+        debug("(meters) Szczepan parseTPL 06");
         header_size = distance(frame.begin(), pos);
         int num_mfct_bytes = frame.end() - pos - suffix_size;
         string info = bin2hex(pos, frame.end(), num_mfct_bytes);
         info += " mfct specific";
         addExplanationAndIncrementPos(pos, num_mfct_bytes, KindOfData::CONTENT, Understanding::NONE, info.c_str());
-
+        debug("(meters) Szczepan parseTPL 07");
         return true; // Manufacturer specific telegram payload. Oh well....
     }
     }
