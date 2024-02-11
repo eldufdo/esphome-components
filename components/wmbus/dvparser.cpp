@@ -1090,7 +1090,7 @@ bool parseDV(Telegram* t,
     vector<uchar>& databytes,
     vector<uchar>::iterator data,
     size_t data_len,
-     std::map<string, pair<int, DVEntry>>* dv_entries,
+    std::map<string, pair<int, DVEntry>>* dv_entries,
     vector<uchar>::iterator* format,
     size_t format_len,
     uint16_t* format_hash)
@@ -1456,6 +1456,8 @@ bool parseDV(Telegram* t,
         int offset = start_parse_here + data - data_start;
         debug("(meters) Szczepan parseDV 03");
 
+        debug("(meters) Szczepan parseDV 03.1 size '%d'", dv_entries->size());
+
         (*dv_entries)[key] = { offset, DVEntry(offset,
                                                key,
                                                mt,
@@ -1468,7 +1470,9 @@ bool parseDV(Telegram* t,
                                                value) };
         debug("(meters) Szczepan parseDV 04");
 
-        DVEntry* dve = &(*dv_entries)[key].second;
+        debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
+
+        DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
         // if (isTraceEnabled())
         // {
