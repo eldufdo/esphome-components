@@ -1454,7 +1454,7 @@ bool parseDV(Telegram* t,
 
         string value = bin2hex(data, data_end, datalen);
         int offset = start_parse_here + data - data_start;
-        debug("(meters) Szczepan parseDV 03");
+        debug("(meters) Szczepan parseDV 03 '%s'", value.c_str());
 
         // debug("(meters) Szczepan parseDV 03.1 size '%d'", dv_entries->size());
 
@@ -1471,7 +1471,8 @@ bool parseDV(Telegram* t,
         debug("(meters) Szczepan parseDV 04");
 
         debug("(meters) Szczepan parseDV 04.1 size '%d'", dv_entries->size());
-        debug("(meters) Szczepan parseDV 04.2 first '%d'", &(*dv_entries)[key].first);
+        debug("(meters) Szczepan parseDV 04.2 first '%d'", (*dv_entries)[key].first);
+        debug("(meters) Szczepan parseDV 04.3 value '%s'", (*dv_entries)[key].second.value.c_str());
 
         DVEntry* dve = &(*dv_entries)[key].second; // tu sie wywala
 
