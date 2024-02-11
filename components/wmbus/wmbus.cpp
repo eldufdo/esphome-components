@@ -111,6 +111,8 @@ namespace wmbus {
           meter->handleTelegram(about, frame, false, &id, &id_match, NULL);
           double val = meter->getNumericValue("total", Unit::M3);
           ESP_LOGI(TAG, "Mamy z wmbusmeters: %.6f", val);
+          val = meter->getNumericValue("total_m3", Unit::M3);
+          ESP_LOGI(TAG, "Mamy z wmbusmeters: %.6f", val);
           //
           if (sensor->key.size()) {
             ESP_LOGVV(TAG, "Key defined, trying to decrypt telegram ...");

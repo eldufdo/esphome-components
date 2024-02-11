@@ -2080,7 +2080,6 @@ bool Telegram::parse_TPL_7A(vector<uchar>::iterator& pos)
 
     if (decrypt_ok)
     {
-        debug("(meters) Szczepan parseTPL 03");
         parseDV(this, frame, pos, remaining, &dv_entries);
     }
     else
@@ -2119,13 +2118,13 @@ bool Telegram::parseTPL(vector<uchar>::iterator& pos)
         tpl_ci, ciType(tpl_ci).c_str());
     int len = ciFieldLength(tpl_ci);
     if (remaining < len + 1 && !mfct_specific) return expectedMore(__LINE__);
-debug("(meters) Szczepan parseTPL 01");
+
     switch (tpl_ci)
     {
     case CI_Field_Values::TPL_72: return parse_TPL_72(pos);
     case CI_Field_Values::TPL_78: return parse_TPL_78(pos);
     case CI_Field_Values::TPL_79: return parse_TPL_79(pos);
-    case CI_Field_Values::TPL_7A: {debug("(meters) Szczepan parseTPL 02"); return parse_TPL_7A(pos);}
+    case CI_Field_Values::TPL_7A: return parse_TPL_7A(pos);
     default:
     {
         // A0 to B7 are manufacturer specific.
@@ -2138,13 +2137,11 @@ debug("(meters) Szczepan parseTPL 01");
         return true; // Manufacturer specific telegram payload. Oh well....
     }
     }
-debug("(meters) Szczepan parseTPL 10");
     header_size = distance(frame.begin(), pos);
     if (parser_warns_)
     {
         warning("(wmbus) Not implemented tpl-ci %02x", tpl_ci);
     }
-    debug("(meters) Szczepan parseTPL 09");
     return false;
 }
 
