@@ -213,6 +213,7 @@ namespace wmbus {
         this->led_blink();
       }
     }
+    delay(10);
   }
 
   bool WMBusComponent::decrypt_telegram(std::vector<unsigned char> &telegram, std::vector<unsigned char> &key) {
