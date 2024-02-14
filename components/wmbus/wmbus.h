@@ -126,7 +126,6 @@ namespace wmbus {
       std::map<uint32_t, WMBusListener *> wmbus_listeners_{};
       std::map<std::string, Driver *> drivers_{};
       std::vector<Client> clients_{};
-      time::RealTimeClock *time_{nullptr};
       uint32_t led_blink_time_{0};
       uint32_t led_on_millis_{0};
       bool led_on_{false};
