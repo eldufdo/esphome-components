@@ -24,36 +24,36 @@ namespace wmbus {
       return;
     }
 
-    this->add_driver(new Amiplus());
-    this->add_driver(new Apator08());
+    // this->add_driver(new Amiplus());
+    // this->add_driver(new Apator08());
     this->add_driver(new Apator162());
-    this->add_driver(new ApatorEITN());
-    this->add_driver(new Bmeters());
-    this->add_driver(new C5isf());
-    this->add_driver(new Compact5());
-    this->add_driver(new Dme07());
-    this->add_driver(new Elf());
+    // this->add_driver(new ApatorEITN());
+    // this->add_driver(new Bmeters());
+    // this->add_driver(new C5isf());
+    // this->add_driver(new Compact5());
+    // this->add_driver(new Dme07());
+    // this->add_driver(new Elf());
     this->add_driver(new Evo868());
-    this->add_driver(new FhkvdataIII());
-    this->add_driver(new Flowiq2200());
-    this->add_driver(new Hydrocalm3());
-    this->add_driver(new Hydrus());
-    this->add_driver(new Iperl());
-    this->add_driver(new Itron());
+    // this->add_driver(new FhkvdataIII());
+    // this->add_driver(new Flowiq2200());
+    // this->add_driver(new Hydrocalm3());
+    // this->add_driver(new Hydrus());
+    // this->add_driver(new Iperl());
+    // this->add_driver(new Itron());
     this->add_driver(new Izar());
-    this->add_driver(new Kamheat());
-    this->add_driver(new Mkradio3());
-    this->add_driver(new Mkradio4());
-    this->add_driver(new Mkradio4a());
-    this->add_driver(new Multical21());
-    this->add_driver(new Qheat());
-    this->add_driver(new Qwater());
-    this->add_driver(new Rfmtx1());
-    this->add_driver(new Sharky774("51728910E66D83F851728910E66D83F8"));
-    this->add_driver(new TopasESKR());
-    this->add_driver(new Ultrimis());
-    this->add_driver(new Unismart());
-    this->add_driver(new Vario451());
+    // this->add_driver(new Kamheat());
+    // this->add_driver(new Mkradio3());
+    // this->add_driver(new Mkradio4());
+    // this->add_driver(new Mkradio4a());
+    // this->add_driver(new Multical21());
+    // this->add_driver(new Qheat());
+    // this->add_driver(new Qwater());
+    // this->add_driver(new Rfmtx1());
+    // this->add_driver(new Sharky774("51728910E66D83F851728910E66D83F8"));
+    // this->add_driver(new TopasESKR());
+    // this->add_driver(new Ultrimis());
+    // this->add_driver(new Unismart());
+    // this->add_driver(new Vario451());
   }
 
   void WMBusComponent::loop() {

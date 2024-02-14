@@ -1,3 +1,3 @@
 #ifndef MY_VERSION
-#define MY_VERSION "3.1.7"
+#define MY_VERSION "4.x.y - wmbusmeters"
 #endif
