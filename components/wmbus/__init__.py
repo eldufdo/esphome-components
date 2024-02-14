@@ -1,7 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import pins
-from esphome.components import time
 from esphome.components.network import IPAddress
 from esphome.const import (
     CONF_ID,
@@ -33,7 +32,6 @@ CONF_SYNC_MODE = "sync_mode"
 
 CODEOWNERS = ["@SzczepanLeon"]
 
-DEPENDENCIES = ["time"]
 AUTO_LOAD = ["sensor", "text_sensor"]
 
 wmbus_ns = cg.esphome_ns.namespace('wmbus')
@@ -67,7 +65,6 @@ CLIENT_SCHEMA = cv.Schema({
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(WMBusComponent),
-    cv.GenerateID(CONF_TIME_ID): cv.use_id(time.RealTimeClock),
     cv.Optional(CONF_MOSI_PIN,       default=13):      pins.internal_gpio_output_pin_schema,
     cv.Optional(CONF_MISO_PIN,       default=12):      pins.internal_gpio_input_pin_schema,
     cv.Optional(CONF_CLK_PIN,        default=14):      pins.internal_gpio_output_pin_schema,
@@ -75,7 +72,6 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_GDO0_PIN,       default=5):       pins.internal_gpio_input_pin_schema,
     cv.Optional(CONF_GDO2_PIN,       default=4):       pins.internal_gpio_input_pin_schema,
     cv.Optional(CONF_LED_PIN):                         pins.gpio_output_pin_schema,
-    cv.Optional(CONF_LED_BLINK_TIME, default="300ms"): cv.positive_time_period,
     cv.Optional(CONF_LOG_UNKNOWN,    default=True):    cv.boolean,
     cv.Optional(CONF_CLIENTS):                         cv.ensure_list(CLIENT_SCHEMA),
     cv.Optional(CONF_FREQUENCY,      default=868.950): cv.float_range(min=300, max=928),
@@ -100,9 +96,6 @@ async def to_code(config):
 
     cg.add(var.add_cc1101(mosi, miso, clk, cs, gdo0, gdo2, config[CONF_FREQUENCY], config[CONF_SYNC_MODE]))
 
-    time = await cg.get_variable(config[CONF_TIME_ID])
-    cg.add(var.set_time(time))
-
     if config[CONF_LOG_UNKNOWN]:
         cg.add(var.set_log_unknown())
 
@@ -114,7 +107,6 @@ async def to_code(config):
     if CONF_LED_PIN in config:
         led_pin = await cg.gpio_pin_expression(config[CONF_LED_PIN])
         cg.add(var.set_led_pin(led_pin))
-        cg.add(var.set_led_blink_time(config[CONF_LED_BLINK_TIME].total_milliseconds))
 
     cg.add_library("SPI", None)
 
