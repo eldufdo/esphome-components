@@ -62,7 +62,7 @@ namespace wmbus {
     // if (rf_mbus_.task()) {
     if (true) {
       ESP_LOGVV(TAG, "Have data from CC1101 ...");
-      // WMbusFrame mbus_data = rf_mbus_.get_frame();
+      WMbusFrame mbus_data = rf_mbus_.get_frame();
       char frameMode[3]{0};
       frameMode[0] = 'T';
       frameMode[1] = '1';
