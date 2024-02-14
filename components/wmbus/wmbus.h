@@ -90,7 +90,7 @@ namespace wmbus {
       void add_cc1101(InternalGPIOPin *mosi, InternalGPIOPin *miso,
                       InternalGPIOPin *clk, InternalGPIOPin *cs,
                       InternalGPIOPin *gdo0, InternalGPIOPin *gdo2,
-                      float frequency, bool sync_mode) {
+                      double frequency, bool sync_mode) {
         this->spi_conf_.mosi = mosi;
         this->spi_conf_.miso = miso;
         this->spi_conf_.clk  = clk;
@@ -121,7 +121,7 @@ namespace wmbus {
       HighFrequencyLoopRequester high_freq_;
       GPIOPin *led_pin_{nullptr};
       Cc1101 spi_conf_{};
-      float frequency_{};
+      double frequency_{};
       bool sync_mode_{false};
       std::map<uint32_t, WMBusListener *> wmbus_listeners_{};
       std::map<std::string, Driver *> drivers_{};
