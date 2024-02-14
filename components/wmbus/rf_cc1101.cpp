@@ -22,7 +22,7 @@ namespace wmbus {
                                    TMODE_RF_SETTINGS_BYTES[(i << 1) + 1]);
     }
 
-    uint32_t freq_reg = uint32_t(freq * 65536 / 26);
+    uint32_t freq_reg = uint32_t(868.950 * 65536 / 26);
     uint8_t freq2 = (freq_reg >> 16) & 0xFF;
     uint8_t freq1 = (freq_reg >> 8) & 0xFF;
     uint8_t freq0 = freq_reg & 0xFF;
