@@ -12,9 +12,6 @@
 
 #include "drivers.h"
 
-#include <WiFiClient.h>
-#include <WiFiUdp.h>
-
 #include "rf_cc1101.h"
 #include "m_bus_data.h"
 #include "utils_my.h"
