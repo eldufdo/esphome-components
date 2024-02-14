@@ -4,7 +4,6 @@
 #include "esphome/core/gpio.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/component.h"
-#include "esphome/components/network/ip_address.h"
 #include "esphome/components/time/real_time_clock.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
@@ -45,7 +44,6 @@ namespace wmbus {
 
   struct Client {
     std::string name;
-    network::IPAddress ip;
     uint16_t port;
     Transport transport;
     Format format;
@@ -109,11 +107,10 @@ namespace wmbus {
       void set_time(time::RealTimeClock *time) { this->time_ = time; }
       void set_log_unknown() { this->log_unknown_ = true; }
       void add_client(const std::string name,
-                      const network::IPAddress ip,
                       const uint16_t port,
                       const Transport transport,
                       const Format format) {
-        clients_.push_back({name, ip, port, transport, format});
+        clients_.push_back({name, port, transport, format});
       }
 
     private:

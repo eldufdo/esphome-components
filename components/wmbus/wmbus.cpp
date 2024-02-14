@@ -205,88 +205,6 @@ namespace wmbus {
         ESP_LOGVV(TAG, "Will send telegram to clients ...");
         this->led_blink();
       }
-      for (auto & client : this->clients_) {
-        switch (client.format) {
-          case FORMAT_HEX:
-            {
-              switch (client.transport) {
-                case TRANSPORT_TCP:
-                  {
-                    ESP_LOGV(TAG, "Will send HEX telegram to %s:%d via TCP", client.ip.str().c_str(), client.port);
-                    if (this->tcp_client_.connect(client.ip.str().c_str(), client.port)) {
-                      this->tcp_client_.write((const uint8_t *) frame.data(), frame.size());
-                      this->tcp_client_.stop();
-                    }
-                    else {
-                      ESP_LOGE(TAG, "Can't connect via TCP to %s:%d", client.ip.str().c_str(), client.port);
-                    }
-                  }
-                  break;
-                case TRANSPORT_UDP:
-                  {
-                    ESP_LOGV(TAG, "Will send HEX telegram to %s:%d via UDP", client.ip.str().c_str(), client.port);
-                    this->udp_client_.beginPacket(client.ip.str().c_str(), client.port);
-                    this->udp_client_.write((const uint8_t *) frame.data(), frame.size());
-                    this->udp_client_.endPacket();
-                  }
-                  break;
-                default:
-                  ESP_LOGE(TAG, "Unknown transport!");
-                  break;
-              }
-            }
-            break;
-          case FORMAT_RTLWMBUS:
-            {
-              time_t current_time = this->time_->now().timestamp;
-              char telegram_time[24];
-              strftime(telegram_time, sizeof(telegram_time), "%Y-%m-%d %H:%M:%S.00Z", gmtime(&current_time));
-              switch (client.transport) {
-                case TRANSPORT_TCP:
-                  {
-                    ESP_LOGV(TAG, "Will send RTLWMBUS telegram to %s:%d via TCP", client.ip.str().c_str(), client.port);
-                    if (this->tcp_client_.connect(client.ip.str().c_str(), client.port)) {
-                      this->tcp_client_.printf("%s;1;1;%s;%d;;;0x",
-                                              frameMode,
-                                              telegram_time,
-                                              mbus_data.rssi);
-                      for (int i = 0; i < frame.size(); i++) {
-                        this->tcp_client_.printf("%02X", frame[i]);
-                      }
-                      this->tcp_client_.print("\n");
-                      this->tcp_client_.stop();
-                    }
-                    else {
-                      ESP_LOGE(TAG, "Can't connect via TCP to %s:%d", client.ip.str().c_str(), client.port);
-                    }
-                  }
-                  break;
-                case TRANSPORT_UDP:
-                  {
-                    ESP_LOGV(TAG, "Will send RTLWMBUS telegram to %s:%d via UDP", client.ip.str().c_str(), client.port);
-                    this->udp_client_.beginPacket(client.ip.str().c_str(), client.port);
-                    this->udp_client_.printf("%s;1;1;%s;%d;;;0x",
-                                            frameMode,
-                                            telegram_time,
-                                            mbus_data.rssi);
-                    for (int i = 0; i < frame.size(); i++) {
-                      this->udp_client_.printf("%02X", frame[i]);
-                    }
-                    this->udp_client_.print("\n");
-                    this->udp_client_.endPacket();
-                  }
-                  break;
-                default:
-                  ESP_LOGE(TAG, "Unknown transport!");
-                  break;
-              }
-            }
-            break;
-          default:
-            ESP_LOGE(TAG, "Unknown format!");
-            break;
-        }
-      }
     }
   }
 
@@ -389,17 +307,6 @@ namespace wmbus {
 
   void WMBusComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "wM-Bus v%s:", MY_VERSION);
-    if (this->clients_.size() > 0) {
-      ESP_LOGCONFIG(TAG, "  Clients:");
-      for (auto & client : this->clients_) {
-        ESP_LOGCONFIG(TAG, "    %s: %s:%d %s [%s]",
-                      client.name.c_str(),
-                      client.ip.str().c_str(),
-                      client.port,
-                      LOG_STR_ARG(transport_to_string(client.transport)),
-                      LOG_STR_ARG(format_to_string(client.format)));
-      }
-    }
     if (this->led_pin_ != nullptr) {
       ESP_LOGCONFIG(TAG, "  LED:");
       LOG_PIN("    Pin: ", this->led_pin_);
