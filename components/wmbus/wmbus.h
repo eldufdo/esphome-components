@@ -4,7 +4,6 @@
 #include "esphome/core/gpio.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/component.h"
-#include "esphome/components/time/real_time_clock.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 
@@ -104,7 +103,6 @@ namespace wmbus {
         this->frequency_ = frequency;
         this->sync_mode_ = sync_mode;
       }
-      void set_time(time::RealTimeClock *time) { this->time_ = time; }
       void set_log_unknown() { this->log_unknown_ = true; }
       void add_client(const std::string name,
                       const uint16_t port,
