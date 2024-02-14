@@ -22,13 +22,13 @@ namespace wmbus {
                                    TMODE_RF_SETTINGS_BYTES[(i << 1) + 1]);
     }
 
-    uint32_t freq_reg = uint32_t(868.950 * 65536 / 26);
+    uint32_t freq_reg = uint32_t(freq * 65536 / 26);
     uint8_t freq2 = (freq_reg >> 16) & 0xFF;
     uint8_t freq1 = (freq_reg >> 8) & 0xFF;
     uint8_t freq0 = freq_reg & 0xFF;
 
     ESP_LOGD(TAG, "Set CC1101 frequency to %3.3fMHz [%02X %02X %02X]",
-             868.950/1000000, freq2, freq1, freq0);
+             freq, freq2, freq1, freq0);
              // don't use setMHZ() -- seems to be broken, or used in wrong place
     ELECHOUSE_cc1101.SpiWriteReg(CC1101_FREQ2, freq2);
     ELECHOUSE_cc1101.SpiWriteReg(CC1101_FREQ1, freq1);
