@@ -107,6 +107,7 @@ namespace wmbus {
           Telegram tt;
           meter->handleTelegram(about, frame, false, &id, &id_match, &tt);
           double val = meter->getNumericValue("total", Unit::M3);
+          this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(val);
           ESP_LOGI(TAG, "Mamy z wmbusmeters: %.4f", val);
           //
           if (sensor->key.size()) {
@@ -118,16 +119,20 @@ namespace wmbus {
               ESP_LOGD(TAG, "Decrypted T : %s", decrypted_telegram.c_str());
             }
             else {
+              ESP_LOGD(TAG, "Frame is not ok");
               frameOk = false;
             }
           }
+          
+          
           if (frameOk) {
+            ESP_LOGD(TAG, "Frame is ok");
             auto mapValues = selected_driver->get_values(frame);
             if (mapValues.has_value()) {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("lqi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["lqi"]->publish_state(mbus_data.lqi);
               }
-              this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(val);
+              
               if (this->wmbus_listeners_[meter_id]->sensors_.count("rssi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["rssi"]->publish_state(mbus_data.rssi);
               }
