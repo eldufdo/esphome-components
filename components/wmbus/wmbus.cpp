@@ -107,8 +107,10 @@ namespace wmbus {
           Telegram tt;
           meter->handleTelegram(about, frame, false, &id, &id_match, &tt);
           double val = meter->getNumericValue("total", Unit::M3);
+          ESP_LOGI(TAG, "Total: %.4f", val);
           this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(val);
-          ESP_LOGI(TAG, "Mamy z wmbusmeters: %.4f", val);
+          double val_last_month = meter->getNumericValue("last_month_total", Unit::M3);
+          ESP_LOGI(TAG, "Total Last month: %.4f", val_last_month);
           //
           if (sensor->key.size()) {
             ESP_LOGVV(TAG, "Key defined, trying to decrypt telegram ...");
