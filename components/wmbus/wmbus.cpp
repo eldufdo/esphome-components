@@ -130,6 +130,8 @@ namespace wmbus {
             this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
             double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
             ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
+            std::string current_alarm = meter->getStringValue(selected_driver->findFieldInfo("current_alarms", Quantity::Text));
+            ESP_LOGI(TAG, "alarm %s", current_alarm);
             this->wmbus_listeners_[meter_id]->sensors_["last_month_total_water_m3"]->publish_state(total_last_month);
             auto mapValues = selected_driver->get_values(frame);
             if (mapValues.has_value()) {
