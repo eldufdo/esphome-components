@@ -106,11 +106,7 @@ namespace wmbus {
           bool id_match = false;
           Telegram tt;
           meter->handleTelegram(about, frame, false, &id, &id_match, &tt);
-          double val = meter->getNumericValue("total", Unit::M3);
-          ESP_LOGI(TAG, "Total: %.4f", val);
-          this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(val);
-          double val_last_month = meter->getNumericValue("last_month_total", Unit::M3);
-          ESP_LOGI(TAG, "Total Last month: %.4f", val_last_month);
+         
           //
           if (sensor->key.size()) {
             ESP_LOGVV(TAG, "Key defined, trying to decrypt telegram ...");
@@ -129,6 +125,12 @@ namespace wmbus {
           
           if (frameOk) {
             ESP_LOGD(TAG, "Frame is ok");
+            double total = meter->getNumericValue("total", Unit::M3);
+            ESP_LOGI(TAG, "Total: %.4f", total);
+            this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
+            double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
+            ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
+            this->wmbus_listeners_[meter_id]->sensors_["last_month_total_water_m3"]->publish_state(total_last_month);
             auto mapValues = selected_driver->get_values(frame);
             if (mapValues.has_value()) {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("lqi") > 0) {
@@ -138,45 +140,12 @@ namespace wmbus {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("rssi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["rssi"]->publish_state(mbus_data.rssi);
               }
-              for (const auto &ele : mapValues.value()) {
+              /*for (const auto &ele : mapValues.value()) {
                 if (this->wmbus_listeners_[meter_id]->sensors_.count(ele.first) > 0) {
                   ESP_LOGV(TAG, "Publishing '%s' = %.4f", ele.first.c_str(), ele.second);
                   this->wmbus_listeners_[meter_id]->sensors_[ele.first]->publish_state(ele.second);
                 }
-                // for debug
-                if (text_debug != nullptr) {
-                  if (((this->wmbus_listeners_[meter_id]->type == "apator162") &&
-                      (this->wmbus_listeners_[meter_id]->sensors_.count("total_water_m3") > 0) &&
-                      (ele.second > 500000)) ||
-                      ((this->wmbus_listeners_[meter_id]->type == "apatoreitn") &&
-                      (this->wmbus_listeners_[meter_id]->sensors_.count("current_hca") > 0) &&
-                      (ele.second > 400))) {
-                    text_debug->text_sensor_->publish_state("apator strange value");
-                    std::string telegramik;
-                    int split = 100;
-                    int start = 0;
-                    int part = 1;
-                    while (start < telegram.size()) {
-                      telegramik = std::to_string(part++) + "  | ";
-                      telegramik += telegram.substr(start, split);
-                      text_debug->text_sensor_->publish_state(telegramik);
-                      start += split;
-                    }
-                    std::string decoded_telegramik = format_hex_pretty(frame);
-                    split = 75;
-                    start = 0;
-                    part = 1;
-                    while (start < decoded_telegramik.size()) {
-                      telegramik = std::to_string(part++) + "' | ";
-                      telegramik += decoded_telegramik.substr(start, split);
-                      text_debug->text_sensor_->publish_state(telegramik);
-                      start += split;
-                      split = 99;
-                    }
-                  }
-                }
-                //
-              }
+              }*/
               this->led_blink();
             }
             else {
