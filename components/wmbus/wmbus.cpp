@@ -127,6 +127,7 @@ namespace wmbus {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("lqi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["lqi"]->publish_state(mbus_data.lqi);
               }
+              this->wmbus_listeners_[meter_id]->sensors_["total"].publish_state(val);
               if (this->wmbus_listeners_[meter_id]->sensors_.count("rssi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["rssi"]->publish_state(mbus_data.rssi);
               }
