@@ -128,11 +128,12 @@ namespace wmbus {
             double total = meter->getNumericValue("total", Unit::M3);
             ESP_LOGI(TAG, "Total: %.4f", total);
             this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
-            double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
-            ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
-            this->wmbus_listeners_[meter_id]->sensors_["last_month_total_water_m3"]->publish_state(total_last_month);
-            auto mapValues = selected_driver->get_values(frame);
-            if (mapValues.has_value()) {
+            this->led_blink();
+            //double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
+            //ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
+            //this->wmbus_listeners_[meter_id]->sensors_["last_month_total_water_m3"]->publish_state(total_last_month);
+            //auto mapValues = selected_driver->get_values(frame);
+            /*if (mapValues.has_value()) {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("lqi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["lqi"]->publish_state(mbus_data.lqi);
               }
@@ -140,17 +141,17 @@ namespace wmbus {
               if (this->wmbus_listeners_[meter_id]->sensors_.count("rssi") > 0) {
                 this->wmbus_listeners_[meter_id]->sensors_["rssi"]->publish_state(mbus_data.rssi);
               }
-              /*for (const auto &ele : mapValues.value()) {
+              for (const auto &ele : mapValues.value()) {
                 if (this->wmbus_listeners_[meter_id]->sensors_.count(ele.first) > 0) {
                   ESP_LOGV(TAG, "Publishing '%s' = %.4f", ele.first.c_str(), ele.second);
                   this->wmbus_listeners_[meter_id]->sensors_[ele.first]->publish_state(ele.second);
                 }
-              }*/
+              }
               this->led_blink();
             }
             else {
               ESP_LOGD(TAG, "Can't get value(s) from telegram for ID [0x%08X]", meter_id);
-            }
+            }*/
           }
         }
       }
