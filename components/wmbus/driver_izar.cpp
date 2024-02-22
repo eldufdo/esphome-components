@@ -20,9 +20,6 @@
 #include"meters_common_implementation.h"
 #include"manufacturer_specificities.h"
 
-string izar_current_alarms = "";
-
-string izar_previous_alarms = "";
 
 namespace
 {
