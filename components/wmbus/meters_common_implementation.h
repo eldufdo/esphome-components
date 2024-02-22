@@ -31,6 +31,9 @@
 #include <string>
 
 
+string izar_current_alarms = "";
+
+string izar_previous_alarms = "";
 // Values in a meter are stored based on vname + Quantity.
 // I.e. you can have a total_m3 and a total_kwh even though they share the same "total" vname
 // since they have two different quantities (Volume and Energy).
