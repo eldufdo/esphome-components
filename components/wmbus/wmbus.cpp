@@ -4,6 +4,9 @@
 #include "meters.h"
 
 
+extern string izar_current_alarms;
+extern string izar_previous_alarms;
+
 namespace esphome {
 namespace wmbus {
 
