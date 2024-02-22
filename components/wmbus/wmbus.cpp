@@ -129,6 +129,8 @@ namespace wmbus {
             ESP_LOGI(TAG, "Total: %.4f", total);
             this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
             this->led_blink();
+            FieldInfo* fi = meter->findFieldInfo("current_alarms", Quantity::Text);
+            ESP_LOGI(TAG, "Fieldinfo: %s", fi->vname);
             //double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
             //ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
             //this->wmbus_listeners_[meter_id]->sensors_["last_month_total_water_m3"]->publish_state(total_last_month);
@@ -152,6 +154,8 @@ namespace wmbus {
             else {
               ESP_LOGD(TAG, "Can't get value(s) from telegram for ID [0x%08X]", meter_id);
             }*/
+            
+            
           }
         }
       }
