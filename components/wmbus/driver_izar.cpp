@@ -21,6 +21,11 @@
 #include"manufacturer_specificities.h"
 
 
+
+
+string izar_current_alarms = "";
+string izar_previous_alarms = "";
+
 namespace
 {
     /** Contains all the booleans required to store the alarms of a PRIOS device. */
