@@ -129,8 +129,6 @@ namespace wmbus {
             double total = meter->getNumericValue("total", Unit::M3);
             ESP_LOGI(TAG, "Total: %.4f", total);
             this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
-            this->wmbus_listeners_[meter_id]->sensors_["current_alarms"]->publish_state(izar_current_alarms);
-            this->wmbus_listeners_[meter_id]->sensors_["previous_alarms"]->publish_state(izar_previous_alarms);
             this->led_blink();
             //double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
             //ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
