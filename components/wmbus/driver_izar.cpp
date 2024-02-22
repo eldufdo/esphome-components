@@ -21,11 +21,6 @@
 #include"manufacturer_specificities.h"
 
 
-
-
-string izar_current_alarms = "";
-string izar_previous_alarms = "";
-
 namespace
 {
     /** Contains all the booleans required to store the alarms of a PRIOS device. */
@@ -275,8 +270,6 @@ namespace
         alarms.sensor_fraud_previously = frame[13] >> 2 & 0x1;
         alarms.mechanical_fraud_currently = frame[13] >> 1 & 0x1;
         alarms.mechanical_fraud_previously = frame[13] & 0x1;
-        izar_current_alarms = currentAlarmsText(alarms);
-        izar_previous_alarms = previousAlarmsText(alarms);
         setStringValue("current_alarms", currentAlarmsText(alarms));
         setStringValue("previous_alarms", previousAlarmsText(alarms));
     }
