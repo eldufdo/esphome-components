@@ -129,7 +129,7 @@ namespace wmbus {
             ESP_LOGI(TAG, "Total: %.4f", total);
             this->wmbus_listeners_[meter_id]->sensors_["total_water_m3"]->publish_state(total);
             this->led_blink();
-            FieldInfo* fi = meter->findFieldInfo("current_alarms", Quantity::Text);
+            FieldInfo* fi = meter->findFieldInfo("current_alarms", NULL);
             ESP_LOGI(TAG, "Fieldinfo: %s", meter->getStringValue(fi));
             //double total_last_month = meter->getNumericValue("last_month_total", Unit::M3);
             //ESP_LOGI(TAG, "Total Last month: %.4f", total_last_month);
