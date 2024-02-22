@@ -3,7 +3,6 @@
 
 #include "meters.h"
 
-#include "meters_common_implementation.h";
 
 namespace esphome {
 namespace wmbus {
