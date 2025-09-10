@@ -119,13 +119,13 @@ async def to_code(config):
     cg.add_library("SPI", None)
 
     cg.add_library(
-        name: "SMARTRC-CC1101",
+        "SmartRC-CC1101-Driver-Lib",
         None,
         "https://github.com/LSatan/SmartRC-CC1101-Driver-Lib#master",
     )
 
     cg.add_library(
-        name: "wmbus-drivers",
+        "wmbus-drivers",
         None,
         "https://github.com/SzczepanLeon/wmbus-drivers#1.3.7",
     )
