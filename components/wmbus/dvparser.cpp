@@ -84,6 +84,7 @@ std::string measurementTypeName(MeasurementType mt)
     case MeasurementType::AtError: return "aterror";
     case MeasurementType::Unknown: return "unknown";
     }
+    return "unknown"; // safety fallback
 }
 
 
